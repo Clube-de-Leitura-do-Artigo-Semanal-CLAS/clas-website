@@ -1,0 +1,8 @@
+# Reescreve todos os pedidos para index.php, exceto ficheiros que já existem
+# (assets/css, assets/js, assets/img, uploads, etc.)
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
