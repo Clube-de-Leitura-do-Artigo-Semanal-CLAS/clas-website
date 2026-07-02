@@ -1,17 +1,14 @@
 <?php
-
 /**
- * config/roles.php
- * Define os roles do site e o que cada um pode fazer.
- * Usado por app/Middleware/RoleMiddleware.php (tarefa 2.4).
- *
- * Ver secção 5 do documento de visão para a tabela completa.
+ * Define as roles do site e o que cada uma pode fazer.
+ * Usado pelo RoleMiddleware para bloquear acesso a rotas admin.
+ * Ver Tarefa 2.4 — Sistema de roles e permissões.
  */
 
 return [
-    'visitante'    => ['ver_publica'],
-    'membro'       => ['ver_card', 'ver_relatorios', 'ver_perfil', 'publicar_resenha'],
-    'coordenadora' => ['marcar_presenca_debate'],
-    'recepcao'     => ['marcar_presenca_evento'],
-    'admin'        => ['gestao_completa'], // presenças, dados, estatísticas, estados, roles
+    'visitante'      => ['ver_publica'],
+    'membro'         => ['ver_perfil', 'ver_card', 'publicar_resenha'],
+    'coordenadora'   => ['marcar_presenca_debate'],
+    'rececao'        => ['marcar_presenca_evento'],
+    'admin'          => ['*'], // acesso total
 ];

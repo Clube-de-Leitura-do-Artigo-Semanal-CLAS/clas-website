@@ -1,16 +1,16 @@
 <?php
-
 /**
- * config/links_externos.php
- * Links para serviços fora deste site — nada disto é construído aqui,
- * é só apontado a partir daqui, para ter um único sítio a editar.
+ * Links para serviços externos ao CLAS — NÃO construir estas funcionalidades
+ * aqui dentro, é só apontar para onde já existem.
+ *
+ * - kwiz_demo: usado no botão "Try o Kwiz" da home pública.
+ *   Se um dia o admin precisar de trocar isto pelo painel (ex: mudar para o
+ *   quiz do concurso MwangoLê), migrar para uma tabela de configurações na BD.
+ * - clasia_whatsapp: link direto para a conversa com a Clásia.
  */
 
 return [
-    // "Try o Kwiz" na home pública — demo isolada, não conta para
-    // estatísticas reais. Trocar aqui se o quiz de demonstração mudar.
-    'kwiz_demo' => $_ENV['KWIZ_DEMO_URL'] ?? 'https://kwiz.ao/demo',
-
-    // Clásia — recomendações de leitura via WhatsApp
-    'clasia_whatsapp' => $_ENV['CLASIA_WHATSAPP_URL'] ?? '',
+    'kwiz_demo'       => 'https://kwiz.ao/demo', // TODO: confirmar URL definitivo
+    'kwiz_site'        => 'https://kwiz.ao',
+    'clasia_whatsapp'  => 'https://wa.me/000000000', // TODO: número real
 ];
