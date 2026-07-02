@@ -1,12 +1,12 @@
 <?php
-
 /**
- * routes/api.php
- * Endpoints chamados por sistemas externos — não por browsers.
+ * Endpoints chamados por SERVIÇOS EXTERNOS (não por browsers).
+ * Tarefa 2.6 — o KwiZ envia (POST) os relatórios de turma para aqui.
  *
- * Rota principal (tarefa 2.6):
- *   POST /api/kwiz/relatorios
- *   Recebe os relatórios de turma enviados pelo KwiZ.
- *   Autenticação via KWIZ_API_TOKEN (ver .env.example).
- *   Chama Services/KwizIntegrationService.php.
+ * Proteger com uma chave partilhada (API key) enviada no header,
+ * NÃO usar sessão de membro aqui.
  */
+
+return [
+    ['POST', '/api/kwiz/relatorio', \App\Services\KwizIntegrationService::class, 'receberRelatorio'],
+];

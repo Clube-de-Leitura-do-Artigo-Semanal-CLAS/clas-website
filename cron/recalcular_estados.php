@@ -1,15 +1,15 @@
 <?php
-
 /**
- * cron/recalcular_estados.php
+ * Script chamado pelo CRONTAB do servidor, 1x por dia.
  *
- * Script chamado diretamente pelo crontab do servidor (não pelo browser).
- * Corre uma vez por dia. Só faz bootstrap e delega para o Job.
- *
- * Exemplo de entrada no crontab (correr às 3h da manhã):
+ * Exemplo de entrada no crontab:
  *   0 3 * * * php /caminho/para/clas-website/cron/recalcular_estados.php
+ *
+ * (às 3h da manhã, para não coincidir com uso normal do site)
  */
 
-require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// TODO: instanciar e correr app/Jobs/RecalcularEstadosJob.php
+(new \App\Jobs\RecalcularEstadosJob(new \App\Services\EstadoMembroService()))->run();
+
+echo "Estados recalculados em " . date('Y-m-d H:i:s') . PHP_EOL;

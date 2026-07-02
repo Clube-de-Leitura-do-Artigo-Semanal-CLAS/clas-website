@@ -1,1 +1,1 @@
-// main.js — comportamento partilhado por todas as páginas (menu mobile, etc.)
+// JS partilhado por todo o site (menu mobile, scroll suave, etc.)

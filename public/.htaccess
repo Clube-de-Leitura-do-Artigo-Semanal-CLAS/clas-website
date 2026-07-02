@@ -1,8 +1,8 @@
-# Reescreve todos os pedidos para index.php, exceto ficheiros que já existem
-# (assets/css, assets/js, assets/img, uploads, etc.)
+# Redireciona todos os pedidos para index.php, exceto ficheiros que existem
+# de facto (css, js, imagens) — assim conseguimos ter URLs limpos tipo
+# /membros/perfil em vez de /membros/perfil.php
 
 RewriteEngine On
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]

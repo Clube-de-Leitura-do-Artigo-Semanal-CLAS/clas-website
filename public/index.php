@@ -1,19 +1,19 @@
 <?php
-
 /**
- * Front controller — TODOS os pedidos passam por aqui (ver .htaccess).
- *
- * Fluxo:
- *   1. Carrega configuração e autoload
- *   2. Resolve a rota pedida (routes/web.php, routes/admin.php, routes/api.php)
- *   3. Chama o Controller correspondente
- *
- * Ainda não implementado — este ficheiro é o ponto de partida.
- * Quem pegar na tarefa de routing/bootstrap deve substituir isto por
- * um router real (mesmo que simples, feito à mão).
+ * Front controller — TODOS os pedidos ao site passam por aqui.
+ * Não adicionem lógica de negócio neste ficheiro; ele só carrega
+ * o autoloader, arranca as rotas e despacha para o Controller certo.
  */
 
-require_once __DIR__ . '/../app/bootstrap.php';
+require_once __DIR__ . '/../vendor/autoload.php'; // se vierem a usar Composer
 
-// TODO: resolver rota e despachar para o Controller certo.
-// Ver routes/web.php, routes/admin.php e routes/api.php.
+// Carrega variáveis de .env (usar phpdotenv ou parser simples)
+$config = require __DIR__ . '/../config/database.php';
+
+// Carrega as rotas — cada ficheiro define um pedaço do site
+require __DIR__ . '/../routes/web.php';
+require __DIR__ . '/../routes/admin.php';
+require __DIR__ . '/../routes/api.php';
+
+// TODO: instanciar o router e despachar o pedido atual
+// Ex: $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

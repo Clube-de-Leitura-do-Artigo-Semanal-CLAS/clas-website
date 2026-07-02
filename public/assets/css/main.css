@@ -1,25 +1,2 @@
-/*
- * main.css
- * Reset básico + variáveis partilhadas por todas as camadas do site.
- * Estilos específicos de cada camada vão em publica.css / membros.css / admin.css
- */
-
-:root {
-  --cor-primaria: #0F6E56;
-  --cor-secundaria: #3C3489;
-  --cor-texto: #2C2C2A;
-  --cor-fundo: #FFFFFF;
-  --fonte-base: system-ui, -apple-system, sans-serif;
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--fonte-base);
-  color: var(--cor-texto);
-  background: var(--cor-fundo);
-}
+/* Estilos base partilhados por todas as camadas (tipografia, cores, grid). */
+/* Estilos específicos de cada camada ficam em publica.css / membros.css / admin.css */
