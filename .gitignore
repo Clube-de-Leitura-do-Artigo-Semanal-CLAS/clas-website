@@ -1,11 +1,10 @@
-# Ambiente
+# Ambiente local — nunca sobe credenciais para o repositório
 .env
-.env.local
 
-# Dependências (se vierem a usar composer para alguma lib, ex: PHPMailer)
+# Dependências, se vierem a ser usadas
 /vendor/
 
-# Uploads de utilizadores (não versionar conteúdo enviado pelos membros)
+# Uploads dos membros (fotos de resenhas, etc.) — não versionar conteúdo gerado por utilizadores
 /public/uploads/*
 !/public/uploads/.gitkeep
 
@@ -13,9 +12,6 @@
 .DS_Store
 Thumbs.db
 
-# Editores
+# Editor
 .vscode/
 .idea/
-
-# Logs
-*.log

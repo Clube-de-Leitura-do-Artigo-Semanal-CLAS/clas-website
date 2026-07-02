@@ -1,0 +1,13 @@
+{
+    "name": "clas/website",
+    "description": "Website do CLAS - PHP puro",
+    "type": "project",
+    "require": {
+        "php": ">=8.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}
