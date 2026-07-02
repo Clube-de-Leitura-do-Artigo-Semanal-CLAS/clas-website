@@ -1,0 +1,21 @@
+# Ambiente
+.env
+.env.local
+
+# Dependências (se vierem a usar composer para alguma lib, ex: PHPMailer)
+/vendor/
+
+# Uploads de utilizadores (não versionar conteúdo enviado pelos membros)
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Ficheiros de sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+
+# Logs
+*.log
