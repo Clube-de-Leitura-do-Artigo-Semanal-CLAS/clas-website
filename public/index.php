@@ -5,22 +5,15 @@
  * o autoloader, arranca as rotas e despacha para o Controller certo.
  */
 
+require_once __DIR__ . '/../vendor/autoload.php'; // se vierem a usar Composer
+
 // Carrega variáveis de .env (usar phpdotenv ou parser simples)
 $config = require __DIR__ . '/../config/database.php';
 
-// Roteamento simples para testar as views públicas
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+// Carrega as rotas — cada ficheiro define um pedaço do site
+require __DIR__ . '/../routes/web.php';
+require __DIR__ . '/../routes/admin.php';
+require __DIR__ . '/../routes/api.php';
 
-$routes = [
-    '/'              => __DIR__ . '/../app/Views/publica/home.php',
-    '/sobre'         => __DIR__ . '/../app/Views/publica/sobre.php',
-    '/contacto'      => __DIR__ . '/../app/Views/publica/contacto.php',
-    '/eventos'       => __DIR__ . '/../app/Views/publica/eventos.php',
-];
-
-if (isset($routes[$uri])) {
-    require $routes[$uri];
-} else {
-    http_response_code(404);
-    echo '<h1>404 — Página não encontrada</h1>';
-}
+// TODO: instanciar o router e despachar o pedido atual
+// Ex: $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
