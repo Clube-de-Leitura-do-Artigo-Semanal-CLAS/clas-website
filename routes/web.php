@@ -14,6 +14,7 @@ return [
     ['GET', '/parceiros', \App\Controllers\Publica\ContactoController::class, 'parceiros'],
     ['GET', '/contacto', \App\Controllers\Publica\ContactoController::class, 'index'],
     ['POST', '/contacto', \App\Controllers\Publica\ContactoController::class, 'enviar'],
+    ['GET', '/eventos', \App\Controllers\Publica\HomeController::class, 'eventos'],
     ['GET', '/inscricao', \App\Controllers\Publica\HomeController::class, 'inscricao'],
 
     // Membros — Tarefas 3.6 a 3.9 (exige sessão autenticada)
