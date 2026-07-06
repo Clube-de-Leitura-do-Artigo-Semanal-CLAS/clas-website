@@ -1,19 +1,36 @@
 <?php
 /**
  * Front controller — TODOS os pedidos ao site passam por aqui.
- * Não adicionem lógica de negócio neste ficheiro; ele só carrega
- * o autoloader, arranca as rotas e despacha para o Controller certo.
+ * Não adicionem lógica de negócio neste ficheiro; ele só arranca
+ * o autoload, monta as rotas e manda o Router despachar o pedido.
  */
 
-require_once __DIR__ . '/../vendor/autoload.php'; // se vierem a usar Composer
+// Autoload simples das classes App\... (sem depender do Composer estar
+// instalado — o projeto é PHP puro, o autoload devia funcionar sempre).
+spl_autoload_register(function (string $classe) {
+    $prefixo = 'App\\';
+    if (!str_starts_with($classe, $prefixo)) {
+        return;
+    }
+    $caminhoRelativo = str_replace('\\', '/', substr($classe, strlen($prefixo)));
+    $ficheiro = __DIR__ . '/../app/' . $caminhoRelativo . '.php';
+    if (file_exists($ficheiro)) {
+        require $ficheiro;
+    }
+});
 
-// Carrega variáveis de .env (usar phpdotenv ou parser simples)
+// Se um dia a equipa adicionar alguma biblioteca via Composer, isto
+// carrega-a também — mas não é obrigatório existir (ver acima).
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require __DIR__ . '/../vendor/autoload.php';
+}
+
+// Carrega variáveis de configuração
 $config = require __DIR__ . '/../config/database.php';
 
-// Carrega as rotas — cada ficheiro define um pedaço do site
-require __DIR__ . '/../routes/web.php';
-require __DIR__ . '/../routes/admin.php';
-require __DIR__ . '/../routes/api.php';
-
-// TODO: instanciar o router e despachar o pedido atual
-// Ex: $router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
+// Monta as rotas (pública + membros, admin, api) e despacha o pedido atual
+$router = new \App\Core\Router();
+$router->carregar(__DIR__ . '/../routes/web.php');
+$router->carregar(__DIR__ . '/../routes/admin.php');
+$router->carregar(__DIR__ . '/../routes/api.php');
+$router->despachar($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);
