@@ -21,6 +21,11 @@ class HomeController
         require __DIR__ . '/../../Views/publica/sobre.php';
     }
 
+    public function eventos(): void
+    {
+        require __DIR__ . '/../../Views/publica/eventos.php';
+    }
+
     public function inscricao(): void
     {
         // Formulário de inscrição — decidir se fica aqui ou redireciona
