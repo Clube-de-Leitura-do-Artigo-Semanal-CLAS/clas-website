@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CLAS — UI Kit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root{
+  /* --- marca: amarelo/azul atualizados para os tons da imagem (item 1) --- */
+  --clr-primary:      #EE9E2C; /* amber.400 — antes #FDD111 */
+  --clr-primary-hover: #DD8A17; /* amber.500 */
+  --clr-primary-subtle:#FDF3E1; /* amber.50 */
+  --clr-primary-dk:   #8F0C20; /* bordô — inalterado */
+
+  --clr-accent:       #1B4F8C; /* blue.600 — antes #195BDB */
+  --clr-accent-hover: #153D6C; /* blue.700 */
+  --clr-accent-active:#0F2C4E; /* blue.800 */
+  --clr-accent-subtle:#EAF2FB; /* blue.50 */
+
+  --clr-dark:         #1A1008;
+  --clr-text:         #2D1F0E;
+  --clr-muted:        #7A6452;
+  --clr-muted-light:  #B7AC97;
+  --clr-paper:        #FAF6F0;
+  --clr-white:        #FFFFFF;
+  --clr-sunken:       #F0EBE2;
+  --clr-border:       #E5DED2;
+
+  /* --- estados do membro: NÃO alterados (item 4) --- */
+  --state-ativo:      #2F6B3B; --state-ativo-bg:#E9F3EA;
+  --state-risco:      #C97A24; --state-risco-bg:#FBEEDD;
+  --state-inativo:    #B24B24; --state-inativo-bg:#FBE9E0;
+  --state-fantasma:   #8A7C6C; --state-fantasma-bg:#EFEBE4;
+  --state-danger:     #A3283A; --state-danger-bg:#F8E3E3;
+
+  --radius-sm:8px; --radius-md:16px; --radius-lg:24px; --radius-pill:99px;
+  --shadow-book: 0 20px 60px rgba(26,16,8,0.25), 0 6px 20px rgba(26,16,8,0.15);
+  --shadow-card: 0 8px 32px rgba(26,16,8,0.12);
+  --shadow-nav:  0 2px 24px rgba(26,16,8,0.10);
+}
+
+@page{size:210mm 297mm;margin:0;}
+*{box-sizing:border-box;}
+body{font-family:'Manrope',sans-serif;color:var(--clr-text);margin:0;background:var(--clr-sunken);}
+html,body{overflow-x:hidden;}
+h1,h2,h3{font-family:'Playfair Display',serif;color:var(--clr-dark);margin:0;}
+.page{max-width:900px;width:calc(100% - 32px);margin:24px auto;padding:48px 56px;position:relative;background:var(--clr-white);border-radius:20px;box-shadow:0 1px 2px rgba(26,16,8,.06), 0 8px 28px rgba(26,16,8,.08);}
+.page:first-child{margin-top:24px;}
+.page:last-child{margin-bottom:24px;}
+.table-scroll{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.table-scroll table{min-width:480px;}
+
+@media (max-width:720px){
+  .page{padding:32px 22px;border-radius:14px;width:calc(100% - 20px);margin:16px auto;}
+  .grid2,.grid4,.two-col-code,.stat-grid{grid-template-columns:1fr!important;}
+  .swatch-grid{grid-template-columns:repeat(2,1fr)!important;}
+  .mini-navbar{flex-wrap:wrap;gap:10px;}
+  .mini-navbar .links{flex-wrap:wrap;gap:10px;}
+}
+@media (max-width:420px){
+  .swatch-grid{grid-template-columns:1fr 1fr!important;gap:10px!important;}
+  .page{padding:26px 16px;}
+}
+.kicker{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--clr-muted);font-weight:700;margin-bottom:6px;}
+.pagenum{position:absolute;bottom:10mm;right:18mm;font-size:9px;color:var(--clr-muted);}
+.section-title{font-size:22px;font-weight:700;margin-bottom:4px;}
+.section-sub{font-size:12px;color:var(--clr-muted);margin-bottom:20px;}
+.subhead{font-size:13px;font-weight:800;font-family:'Manrope';color:var(--clr-dark);margin:20px 0 8px;}
+table{width:100%;border-collapse:collapse;font-size:11px;}
+th{text-align:left;font-family:'Manrope';font-weight:700;color:var(--clr-muted);text-transform:uppercase;font-size:9px;letter-spacing:.05em;padding:6px 8px;border-bottom:1px solid var(--clr-border);}
+td{padding:8px;border-bottom:1px solid var(--clr-sunken);vertical-align:middle;}
+.swatch-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.swatch{border-radius:var(--radius-md);overflow:hidden;border:1px solid #EEE7DB;}
+.swatch-color{height:64px;}
+.swatch-label{padding:8px 10px;background:#fff;}
+.swatch-name{font-size:11px;font-weight:700;}
+.swatch-hex{font-size:10px;color:var(--clr-muted);font-family:monospace;}
+.callout{background:#FBEEDD;border-left:3px solid var(--state-risco);padding:12px 16px;border-radius:0 8px 8px 0;font-size:11px;margin-top:18px;line-height:1.5;}
+.callout b{color:var(--clr-dark);}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 22px;border-radius:var(--radius-pill);font-size:12px;font-weight:700;font-family:'Manrope';border:none;}
+.badge{display:inline-flex;align-items:center;padding:4px 12px;border-radius:var(--radius-pill);font-size:10px;font-weight:700;gap:6px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.card-demo{border:1px solid #EEE7DB;border-radius:var(--radius-md);padding:16px;box-shadow:var(--shadow-card);}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:2px;}
+.code{background:#1F160C;color:#F3E9D6;border-radius:var(--radius-sm);padding:12px 14px;font-size:9.5px;line-height:1.55;overflow-x:hidden;white-space:pre-wrap;word-break:break-word;margin-top:8px;font-family:'SF Mono',Consolas,monospace;}
+.code .c1{color:#F2B24C;} .code .c2{color:#9CC5EA;} .code .c3{color:#7FC98C;}
+.two-col-code{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+
+/* ---- adicionados nesta revisão: não alteram nada acima ---- */
+.toc{list-style:none;padding:0;margin:18px 0 0;font-size:11px;color:var(--clr-muted);}
+.toc li{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted var(--clr-border);max-width:60%;}
+.toc b{color:var(--clr-dark);font-weight:700;}
+
+.flow{display:flex;flex-direction:column;gap:0;align-items:flex-start;}
+.flow-node{border-radius:var(--radius-md);padding:12px 18px;font-size:12px;font-weight:700;min-width:220px;border:1.5px solid transparent;}
+.flow-arrow{font-size:16px;color:var(--clr-muted);margin:2px 0 2px 24px;}
+.flow-window{font-size:10px;font-weight:400;color:inherit;opacity:.85;display:block;margin-top:2px;}
+
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.stat-box{background:var(--clr-sunken);border-radius:var(--radius-sm);padding:10px 12px;text-align:center;}
+.stat-num{font-size:20px;font-weight:800;color:var(--clr-dark);}
+.stat-label{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--clr-muted);font-weight:700;}
+
+.timeline{border-left:2px solid var(--clr-border);margin-left:6px;padding-left:16px;}
+.timeline-item{position:relative;margin-bottom:14px;}
+.timeline-item::before{content:"";position:absolute;left:-21px;top:3px;width:9px;height:9px;border-radius:50%;background:var(--clr-accent);}
+.timeline-title{font-size:12px;font-weight:700;}
+.timeline-meta{font-size:10px;color:var(--clr-muted);}
+
+.mini-navbar{display:flex;align-items:center;justify-content:space-between;background:rgba(250,246,240,.96);border-radius:var(--radius-pill);padding:10px 22px;box-shadow:var(--shadow-nav);border:1px solid var(--clr-border);}
+.mini-navbar .logo{font-family:'Playfair Display';font-weight:900;font-size:15px;color:var(--clr-dark);}
+.mini-navbar .links{display:flex;gap:16px;font-size:10px;font-weight:700;letter-spacing:.02em;color:var(--clr-muted);}
+.mini-navbar .links a{color:var(--clr-muted);text-decoration:none;}
+.mini-navbar .links a.active{color:var(--clr-accent);}
+
+.mini-sidebar{width:190px;background:var(--clr-paper);border-radius:var(--radius-md);border:1px solid var(--clr-border);padding:16px;}
+.mini-sidebar .brand{font-family:'Playfair Display';font-weight:700;font-size:14px;margin-bottom:2px;}
+.mini-sidebar .brand-sub{font-size:9px;color:var(--clr-muted);margin-bottom:14px;}
+.mini-sidebar nav a{display:flex;align-items:center;gap:8px;font-size:11px;font-weight:600;color:var(--clr-muted);text-decoration:none;padding:8px 10px;border-radius:var(--radius-sm);margin-bottom:2px;}
+.mini-sidebar nav a.active{background:var(--clr-accent-subtle);color:var(--clr-accent);font-weight:800;}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--clr-border);}
+.tabs .tab{padding:9px 16px;font-size:11px;font-weight:700;color:var(--clr-muted);border-bottom:2px solid transparent;}
+.tabs .tab.active{color:var(--clr-dark);border-bottom-color:var(--clr-primary-dk);}
+
+.alert{border-radius:var(--radius-sm);padding:12px 16px;font-size:11px;display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
+.alert b{display:block;font-size:11.5px;margin-bottom:2px;}
+.alert-success{background:var(--state-ativo-bg);color:#1E4A26;border:1px solid #cfe6d2;}
+.alert-warning{background:var(--state-risco-bg);color:#7A4C17;border:1px solid #f0dcb8;}
+.alert-danger{background:var(--state-danger-bg);color:#6E1B27;border:1px solid #f0c8cd;}
+.alert-info{background:var(--clr-accent-subtle);color:var(--clr-accent-active);border:1px solid #c9dcf7;}
+
+.toast{display:flex;align-items:center;gap:10px;background:var(--clr-dark);color:#fff;border-radius:var(--radius-md);padding:12px 16px;font-size:11px;box-shadow:var(--shadow-card);max-width:300px;}
+.toast .toast-icon{width:18px;height:18px;border-radius:50%;background:var(--clr-primary);flex-shrink:0;}
+
+.spinner{width:20px;height:20px;border-radius:50%;border:3px solid var(--clr-sunken);border-top-color:var(--clr-accent);display:inline-block;}
+.skeleton{background:var(--clr-sunken);border-radius:var(--radius-sm);}
+
+.qr-box{width:64px;height:64px;background:var(--clr-sunken);border-radius:8px;flex-shrink:0;background-image:
+  linear-gradient(90deg, var(--clr-dark) 25%, transparent 25%, transparent 50%, var(--clr-dark) 50%, var(--clr-dark) 75%, transparent 75%),
+  linear-gradient(0deg, var(--clr-dark) 25%, transparent 25%, transparent 50%, var(--clr-dark) 50%, var(--clr-dark) 75%, transparent 75%);
+  background-size:10px 10px;opacity:.5;}
+
+@media print{
+  body{background:#fff;}
+  .page{max-width:none;width:auto;margin:0;border-radius:0;box-shadow:none;padding:14mm 16mm;page-break-after:always;}
+  .table-scroll{overflow-x:visible;}
+  .table-scroll table{min-width:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="page" style="background:var(--clr-paper);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;">
+  <div class="kicker">CLAS · Clube de Leitura do Artigo Semanal</div>
+  <h1 style="font-size:clamp(28px,7vw,48px);line-height:1.1;max-width:80%;">UI Kit completo</h1>
+  <p style="font-size:14px;color:var(--clr-muted);margin-top:12px;max-width:70%;">Cores, tipografia, grid, componentes e badges — paleta atualizada (âmbar/azul), corpo em Manrope, cards no formato de card de membro e citação editorial.</p>
+  <div style="margin-top:40px;font-size:11px;color:var(--clr-muted);">v1.3 · Design lead: Jussana Paim</div>
+
+  <ul class="toc">
+    <li><span>01 · Cores</span><b>02</b></li>
+    <li><span>Tipografia</span><b>03</b></li>
+    <li><span>Grid, espaçamento e elevação</span><b>04</b></li>
+    <li><span>02 · Botões</span><b>05</b></li>
+    <li><span>Inputs</span><b>06</b></li>
+    <li><span>Badges</span><b>07</b></li>
+    <li><span>Cards — resumo</span><b>08</b></li>
+    <li><span>Card de membro — perfil completo</span><b>09</b></li>
+    <li><span>03 · Roles & permissões</span><b>10</b></li>
+    <li><span>Feedback UI</span><b>11</b></li>
+    <li><span>Formulário de inscrição</span><b>12</b></li>
+    <li><span>Gestão de membros (admin)</span><b>13</b></li>
+  </ul>
+</div>
+
+<!-- CORES -->
+<div class="page">
+  <div class="kicker">01 · Fundações</div>
+  <div class="section-title">Cores</div>
+  <div class="section-sub">Marca atualizada para tons de azul e âmbar. Estados do membro mantidos sem alteração.</div>
+
+  <div class="subhead" style="margin-top:0;">Paleta de marca — degradê</div>
+  <div class="swatch-grid" style="grid-template-columns:repeat(6,1fr);">
+    <div class="swatch"><div class="swatch-color" style="background:#1B4F8C;"></div><div class="swatch-label"><div class="swatch-name">brand.primary</div><div class="swatch-hex">#1B4F8C</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#153D6C;"></div><div class="swatch-label"><div class="swatch-name">brand.hover</div><div class="swatch-hex">#153D6C</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#0F2C4E;"></div><div class="swatch-label"><div class="swatch-name">brand.active</div><div class="swatch-hex">#0F2C4E</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#EAF2FB;border-bottom:1px solid #eee;"></div><div class="swatch-label"><div class="swatch-name">brand.subtle</div><div class="swatch-hex">#EAF2FB</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#EE9E2C;"></div><div class="swatch-label"><div class="swatch-name">accent</div><div class="swatch-hex">#EE9E2C</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#FDF3E1;border-bottom:1px solid #eee;"></div><div class="swatch-label"><div class="swatch-name">accent.subtle</div><div class="swatch-hex">#FDF3E1</div></div></div>
+  </div>
+  <div class="section-sub" style="margin-top:-14px;">brand.* = azul (CTA de marca, links, navbar) · accent = âmbar (destaques, hover, badges de conquista) — nunca usar accent como fundo grande de secção.</div>
+
+  <div class="subhead">Superfícies & texto</div>
+  <div class="swatch-grid" style="grid-template-columns:repeat(4,1fr);">
+    <div class="swatch"><div class="swatch-color" style="background:#FAF6F0;border-bottom:1px solid #eee;"></div><div class="swatch-label"><div class="swatch-name">surface.page</div><div class="swatch-hex">#FAF6F0</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#FFFFFF;border-bottom:1px solid #eee;"></div><div class="swatch-label"><div class="swatch-name">surface.card</div><div class="swatch-hex">#FFFFFF</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#F0EBE2;"></div><div class="swatch-label"><div class="swatch-name">surface.sunken</div><div class="swatch-hex">#F0EBE2</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#1A1008;"></div><div class="swatch-label"><div class="swatch-name">surface.inverse</div><div class="swatch-hex">#1A1008</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#2D1F0E;"></div><div class="swatch-label"><div class="swatch-name">text.primary</div><div class="swatch-hex">#2D1F0E</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#7A6452;"></div><div class="swatch-label"><div class="swatch-name">text.secondary</div><div class="swatch-hex">#7A6452</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#B7AC97;"></div><div class="swatch-label"><div class="swatch-name">text.muted</div><div class="swatch-hex">#B7AC97</div></div></div>
+  </div>
+
+  <div class="subhead">Estados do membro — inalterados</div>
+  <div class="swatch-grid" style="grid-template-columns:repeat(5,1fr);">
+    <div class="swatch"><div class="swatch-color" style="background:#2F6B3B;"></div><div class="swatch-label"><div class="swatch-name">Ativo</div><div class="swatch-hex">#2F6B3B</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#C97A24;"></div><div class="swatch-label"><div class="swatch-name">Em risco</div><div class="swatch-hex">#C97A24</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#B24B24;"></div><div class="swatch-label"><div class="swatch-name">Inativo</div><div class="swatch-hex">#B24B24</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#8A7C6C;"></div><div class="swatch-label"><div class="swatch-name">Fantasma</div><div class="swatch-hex">#8A7C6C</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#A3283A;"></div><div class="swatch-label"><div class="swatch-name">Danger</div><div class="swatch-hex">#A3283A</div></div></div>
+  </div>
+</div>
+
+<!-- TIPOGRAFIA -->
+<div class="page">
+  <div class="kicker">01 · Fundações</div>
+  <div class="section-title">Tipografia</div>
+  <div class="section-sub">Playfair Display mantém-se para títulos. Corpo e UI passam de Inter para <b>Manrope</b>.</div>
+
+  <div style="margin-bottom:28px;">
+    <div class="kicker">Títulos — Playfair Display</div>
+    <div style="font-family:'Playfair Display';font-weight:900;font-size:clamp(26px,6vw,40px);">O clube que transforma</div>
+    <div style="font-family:'Playfair Display';font-weight:700;font-size:28px;margin-top:6px;">Sobre o CLAS</div>
+    <div style="font-family:'Playfair Display';font-style:italic;font-weight:400;font-size:20px;margin-top:6px;color:var(--clr-muted);">"Pela primeira vez li um livro em menos de 24h."</div>
+  </div>
+
+  <div style="margin-bottom:20px;">
+    <div class="kicker">Corpo e UI — Manrope</div>
+    <div style="font-size:16px;">Texto corrido em Manrope Regular — parágrafos, listas e conteúdo principal.</div>
+    <div style="font-size:14px;font-weight:600;margin-top:8px;">Manrope SemiBold — rótulos de formulário, itens de navegação.</div>
+    <div style="font-size:12px;color:var(--clr-muted);margin-top:8px;">Manrope Regular 12px — legendas, metadados, texto de apoio.</div>
+  </div>
+
+  <div class="table-scroll"><table>
+    <tr><th>Estilo</th><th>Fonte</th><th>Tamanho</th><th>Peso</th><th>Uso</th></tr>
+    <tr><td>Display</td><td>Playfair Display</td><td>40–48px</td><td>900</td><td>Hero da homepage</td></tr>
+    <tr><td>H1</td><td>Playfair Display</td><td>32px</td><td>700</td><td>Título de página</td></tr>
+    <tr><td>H2</td><td>Playfair Display</td><td>28px</td><td>600–700</td><td>Título de secção</td></tr>
+    <tr><td>Quote</td><td>Playfair Display itálico</td><td>18–20px</td><td>400</td><td>Citações, resenhas</td></tr>
+    <tr><td>Body</td><td>Manrope</td><td>16px</td><td>400</td><td>Texto corrido</td></tr>
+    <tr><td>Body medium</td><td>Manrope</td><td>16px</td><td>600</td><td>Texto com ênfase</td></tr>
+    <tr><td>Label</td><td>Manrope</td><td>14px</td><td>600</td><td>Formulários, nav</td></tr>
+    <tr><td>Caption</td><td>Manrope</td><td>12px</td><td>400</td><td>Legendas, metadados</td></tr>
+    <tr><td>Overline</td><td>Manrope</td><td>10px, maiúsculas</td><td>700</td><td>Rótulos de secção</td></tr>
+  </table></div>
+  <div class="code">@import url('https://fonts.googleapis.com/css2?
+  family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600
+  &family=Manrope:wght@400;500;600;700;800&display=swap');</div>
+</div>
+
+<!-- GRID / ESPAÇAMENTO / ELEVAÇÃO — DETALHADO -->
+<div class="page">
+  <div class="kicker">01 · Fundações</div>
+  <div class="section-title">Grid, espaçamento e elevação</div>
+  <div class="section-sub">Escala base-4px, com tokens CSS e configuração Tailwind equivalente para implementação direta.</div>
+
+  <div class="subhead" style="margin-top:0;">Escala de espaçamento</div>
+  <div style="display:flex;align-items:flex-end;gap:10px;margin:10px 0 14px;font-size:10px;color:var(--clr-muted);">
+    <div>4<div style="width:4px;height:4px;background:var(--clr-accent);margin-top:4px;"></div></div>
+    <div>8<div style="width:8px;height:8px;background:var(--clr-accent);margin-top:4px;"></div></div>
+    <div>16<div style="width:16px;height:16px;background:var(--clr-accent);margin-top:4px;"></div></div>
+    <div>24<div style="width:24px;height:24px;background:var(--clr-accent);margin-top:4px;"></div></div>
+    <div>32<div style="width:32px;height:32px;background:var(--clr-accent);margin-top:4px;"></div></div>
+    <div>48<div style="width:48px;height:48px;background:var(--clr-accent);margin-top:4px;"></div></div>
+  </div>
+
+  <div class="two-col-code">
+    <div>
+      <div class="kicker">CSS custom properties</div>
+      <div class="code">:root{
+  --sp-1:4px;  --sp-2:8px;
+  --sp-3:12px; --sp-4:16px;
+  --sp-5:20px; --sp-6:24px;
+  --sp-8:32px; --sp-10:40px;
+  --sp-12:48px;--sp-16:64px;
+
+  --radius-sm:8px;   /* chips, itens de nav */
+  --radius-md:16px;  /* cards, modais */
+  --radius-lg:24px;  /* secções destacadas */
+  --radius-pill:99px;/* botões, inputs, badges */
+
+  --shadow-nav:  0 2px 24px rgba(26,16,8,.10);
+  --shadow-card: 0 8px 32px rgba(26,16,8,.12);
+  --shadow-book: 0 20px 60px rgba(26,16,8,.25),
+                 0 6px 20px rgba(26,16,8,.15);
+}</div>
+    </div>
+    <div>
+      <div class="kicker">tailwind.config.js</div>
+      <div class="code">module.exports = {
+  theme: {
+    extend: {
+      spacing: {
+        '4.5':'18px'
+      },
+      borderRadius: {
+        sm:'8px', md:'16px',
+        lg:'24px', full:'99px'
+      },
+      colors: {
+        brand: {
+          DEFAULT:'#1B4F8C',
+          hover:'#153D6C',
+          active:'#0F2C4E',
+          subtle:'#EAF2FB'
+        },
+        accent: {
+          DEFAULT:'#EE9E2C',
+          hover:'#DD8A17',
+          subtle:'#FDF3E1'
+        }
+      },
+      boxShadow: {
+        nav:'0 2px 24px rgba(26,16,8,.10)',
+        card:'0 8px 32px rgba(26,16,8,.12)',
+        book:'0 20px 60px rgba(26,16,8,.25), 0 6px 20px rgba(26,16,8,.15)'
+      }
+    }
+  }
+}</div>
+    </div>
+  </div>
+
+  <div class="subhead">Como aplicar (exemplo prático)</div>
+  <div class="two-col-code">
+    <div class="code">/* CSS puro */
+.card{
+  padding: var(--sp-6);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  gap: var(--sp-4);
+}</div>
+    <div class="code">&lt;!-- Tailwind --&gt;
+&lt;div class=<span class="c2">"p-6 rounded-md shadow-card gap-4"</span>&gt;
+  ...
+&lt;/div&gt;</div>
+  </div>
+</div>
+
+<!-- BOTÕES — DETALHADO -->
+<div class="page">
+  <div class="kicker">02 · Componentes</div>
+  <div class="section-title">Botões</div>
+  <div class="section-sub">Radius-pill (99px) em todos. Primary usa a nova cor de marca (azul); Accent (âmbar) fica reservado a destaque/hover, nunca como CTA principal.</div>
+
+  <div class="kicker">Variantes</div>
+  <div style="display:flex;gap:12px;margin:12px 0 16px;flex-wrap:wrap;">
+    <div class="btn" style="background:var(--clr-accent);color:#fff;">Primary</div>
+    <div class="btn" style="background:transparent;color:var(--clr-accent);border:1.5px solid var(--clr-accent);">Secondary</div>
+    <div class="btn" style="background:transparent;color:var(--clr-muted);">Ghost</div>
+    <div class="btn" style="background:var(--state-danger);color:#fff;">Danger</div>
+    <div class="btn" style="background:var(--clr-primary);color:var(--clr-dark);">Accent (âmbar, destaque)</div>
+    <div class="btn" style="background:#E7E0D2;color:#B7AC97;">Disabled</div>
+  </div>
+
+  <div class="kicker">Estados — Primary</div>
+  <div style="display:flex;gap:12px;margin:10px 0 16px;">
+    <div class="btn" style="background:var(--clr-accent);color:#fff;">Default</div>
+    <div class="btn" style="background:var(--clr-accent-hover);color:#fff;">Hover</div>
+    <div class="btn" style="background:var(--clr-accent-active);color:#fff;">Active</div>
+    <div class="btn" style="background:var(--clr-accent);color:#fff;outline:2px solid var(--clr-primary);outline-offset:2px;">Focus</div>
+  </div>
+
+  <div class="two-col-code">
+    <div>
+      <div class="kicker">CSS</div>
+      <div class="code">.btn{
+  display:inline-flex;
+  align-items:center; gap:6px;
+  padding:10px 22px;
+  border-radius:var(--radius-pill);
+  font:700 12px 'Manrope';
+}
+.btn-primary{ background:var(--clr-accent); color:#fff; }
+.btn-primary:hover{ background:var(--clr-accent-hover); }
+.btn-primary:active{ background:var(--clr-accent-active); }
+.btn-primary:focus-visible{
+  outline:2px solid var(--clr-primary);
+  outline-offset:2px;
+}
+.btn-accent{ background:var(--clr-primary); color:var(--clr-dark); }
+.btn:disabled{ background:#E7E0D2; color:#B7AC97; }</div>
+    </div>
+    <div>
+      <div class="kicker">Tailwind</div>
+      <div class="code">&lt;button class=<span class="c2">"inline-flex items-center gap-1.5
+  px-5.5 py-2.5 rounded-full font-bold text-xs
+  bg-brand text-white
+  hover:bg-brand-hover active:bg-brand-active
+  focus-visible:outline focus-visible:outline-2
+  focus-visible:outline-accent focus-visible:outline-offset-2"</span>&gt;
+  Inscrever-se
+&lt;/button&gt;
+
+&lt;button class=<span class="c2">"... bg-accent text-[--clr-dark]"</span>&gt;
+  Guardar artigo
+&lt;/button&gt;</div>
+    </div>
+  </div>
+
+  <div class="table-scroll"><table style="margin-top:16px;">
+    <tr><th>Tamanho</th><th>Altura</th><th>Padding horizontal</th></tr>
+    <tr><td>SM</td><td>32px</td><td>12px</td></tr>
+    <tr><td>MD</td><td>40px</td><td>16px</td></tr>
+    <tr><td>LG</td><td>48px</td><td>24px</td></tr>
+  </table></div>
+</div>
+
+<!-- INPUTS — DETALHADO -->
+<div class="page">
+  <div class="kicker">02 · Componentes</div>
+  <div class="section-title">Inputs</div>
+  <div class="section-sub">Label sempre visível acima do campo. Foco usa a nova cor de marca (azul); erro usa danger; sucesso usa o verde de estado ativo.</div>
+
+  <div class="kicker">Estados</div>
+  <div style="display:flex;gap:16px;margin:12px 0 20px;flex-wrap:wrap;">
+    <div>
+      <div style="font-size:11px;font-weight:600;margin-bottom:4px;">Default</div>
+      <div style="height:40px;width:220px;border:1.5px solid #DDD3C4;border-radius:var(--radius-pill);padding:0 16px;display:flex;align-items:center;color:var(--clr-muted);font-size:12px;">nome@email.com</div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;margin-bottom:4px;">Focus</div>
+      <div style="height:40px;width:220px;border:1.5px solid var(--clr-accent);box-shadow:0 0 0 3px var(--clr-accent-subtle);border-radius:var(--radius-pill);padding:0 16px;display:flex;align-items:center;color:var(--clr-text);font-size:12px;">nome@email.com</div>
+    </div>
+    <div>
+      <div style="font-size:11px;font-weight:600;margin-bottom:4px;color:var(--state-danger);">Erro</div>
+      <div style="height:40px;width:220px;border:1.5px solid var(--state-danger);border-radius:var(--radius-pill);padding:0 16px;display:flex;align-items:center;color:var(--clr-text);font-size:12px;">ana@</div>
+    </div>
+  </div>
+
+  <div class="two-col-code">
+    <div>
+      <div class="kicker">CSS</div>
+      <div class="code">.input{
+  height:40px;
+  border:1.5px solid #DDD3C4;
+  border-radius:var(--radius-pill);
+  padding:0 16px; font:400 13px 'Manrope';
+}
+.input:focus{
+  border-color:var(--clr-accent);
+  box-shadow:0 0 0 3px var(--clr-accent-subtle);
+  outline:none;
+}
+.input-error{ border-color:var(--state-danger); }
+.textarea{ border-radius:var(--radius-md); } /* nunca pill */</div>
+    </div>
+    <div>
+      <div class="kicker">Tailwind</div>
+      <div class="code">&lt;input class=<span class="c2">"h-10 rounded-full border-[1.5px]
+  border-[#DDD3C4] px-4 text-[13px]
+  focus:border-brand focus:ring-4
+  focus:ring-brand-subtle focus:outline-none"</span> /&gt;
+
+&lt;input class=<span class="c2">"... border-red-700"</span> /&gt; &lt;!-- erro --&gt;
+
+&lt;textarea class=<span class="c2">"rounded-md ..."</span>&gt;&lt;/textarea&gt;</div>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px;">
+    <b>Nota:</b> textarea de resenha usa <code>radius-md</code> (16px), não pill — evita distorção em campos multilinha.
+  </div>
+</div>
+
+<!-- BADGES -->
+<div class="page">
+  <div class="kicker">02 · Componentes</div>
+  <div class="section-title">Badges</div>
+  <div class="section-sub">Estado do membro mantido sem alteração. Roles, conquistas e novidades ganham um tratamento mais lúdico.</div>
+
+  <div class="kicker">Estado do membro — inalterado</div>
+  <div style="display:flex;gap:8px;margin:10px 0 20px;flex-wrap:wrap;">
+    <div class="badge" style="background:var(--state-ativo-bg);color:var(--state-ativo);"><span class="dot" style="background:var(--state-ativo);"></span>Ativo</div>
+    <div class="badge" style="background:var(--state-risco-bg);color:var(--state-risco);"><span class="dot" style="background:var(--state-risco);"></span>Em risco</div>
+    <div class="badge" style="background:var(--state-inativo-bg);color:var(--state-inativo);"><span class="dot" style="background:var(--state-inativo);"></span>Inativo</div>
+    <div class="badge" style="background:var(--state-fantasma-bg);color:var(--state-fantasma);"><span class="dot" style="background:var(--state-fantasma);"></span>Fantasma</div>
+  </div>
+
+  <div class="kicker">Categoria / género literário</div>
+  <div style="display:flex;gap:8px;margin:10px 0 20px;flex-wrap:wrap;">
+    <div class="badge" style="background:#EFEAF9;color:#5B3FA8;">Romance</div>
+    <div class="badge" style="background:#E3F1FA;color:#1B6E96;">Não-ficção</div>
+    <div class="badge" style="background:#FCE9F0;color:#A5335E;">Poesia</div>
+    <div class="badge" style="background:#EFF6E3;color:#4B7A1E;">Desenvolvimento pessoal</div>
+  </div>
+
+  <div class="kicker">Papel / role — versão divertida</div>
+  <div style="display:flex;gap:14px;margin:12px 0 20px;flex-wrap:wrap;align-items:center;">
+    <div class="badge" style="background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-active));color:#fff;transform:rotate(-2deg);box-shadow:0 4px 10px rgba(27,79,140,.35);">👑 Admin</div>
+    <div class="badge" style="background:linear-gradient(135deg,var(--clr-primary),var(--clr-primary-hover));color:var(--clr-dark);transform:rotate(1.5deg);box-shadow:0 4px 10px rgba(238,158,44,.35);">🎤 Coordenadora</div>
+    <div class="badge" style="background:linear-gradient(135deg,#F2B24C,#EE9E2C);color:var(--clr-dark);transform:rotate(-1deg);box-shadow:0 4px 10px rgba(238,158,44,.3);">🎫 Receção</div>
+  </div>
+
+  <div class="kicker">Conquista, notificação e novidade — versão divertida</div>
+  <div style="display:flex;gap:18px;margin:12px 0 10px;align-items:center;flex-wrap:wrap;">
+    <div class="badge" style="background:linear-gradient(135deg,#FFE8A3,#F2B24C);color:#7A4C00;font-weight:800;transform:rotate(-2deg);box-shadow:0 4px 12px rgba(242,178,76,.45);">🏆 Melhor Kwiz!</div>
+    <div class="badge" style="background:linear-gradient(135deg,#FFE8A3,#F2B24C);color:#7A4C00;font-weight:800;transform:rotate(1.5deg);box-shadow:0 4px 12px rgba(242,178,76,.45);">🔥 5 sessões seguidas</div>
+    <div style="position:relative;display:inline-block;">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--clr-accent-subtle);border:1px solid var(--clr-border);"></div>
+      <div style="position:absolute;top:-6px;right:-6px;background:var(--state-danger);color:#fff;font-size:10px;font-weight:800;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(163,40,58,.5);">3</div>
+    </div>
+    <div class="badge" style="background:linear-gradient(135deg,var(--clr-accent),#3E8BD2);color:#fff;font-weight:800;transform:rotate(-1.5deg);box-shadow:0 4px 12px rgba(27,79,140,.4);">✨ Novo</div>
+  </div>
+
+  <div class="callout">
+    <b>Regra de acessibilidade:</b> o dot/ícone do badge de estado é obrigatório, não decorativo — os badges "divertidos" (role/conquista/novidade) já carregam ícone + texto, portanto continuam acessíveis mesmo com gradiente.
+  </div>
+</div>
+
+<!-- CARDS — formato imagem 2 e 3 -->
+<div class="page">
+  <div class="kicker">02 · Componentes</div>
+  <div class="section-title">Cards</div>
+  <div class="section-sub">Card de membro — variante resumo (usada em listas e dashboards admin) e card de citação editorial. A variante de perfil completo, aberta ao ler o QR do passe, está na página seguinte.</div>
+
+  <div class="kicker">Card de membro — resumo (lista/dashboard)</div>
+  <div class="grid2" style="margin:10px 0 20px;">
+    <div class="card-demo">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--clr-accent-subtle);color:var(--clr-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;">AF</div>
+          <div><b style="font-size:14px;">Ana Ferreira</b><br><span style="font-size:11px;color:var(--clr-muted);">CLAS-0042</span></div>
+        </div>
+        <div class="badge" style="background:var(--state-ativo-bg);color:var(--state-ativo);"><span class="dot" style="background:var(--state-ativo);"></span>Ativo</div>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:var(--clr-muted);text-transform:uppercase;letter-spacing:.05em;">Leituras</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:26px;font-weight:800;">24</div>
+        <div style="width:44px;height:44px;background:#EFE7D8;border-radius:8px;"></div>
+      </div>
+      <div style="border-top:1px solid var(--clr-sunken);margin:12px 0 8px;"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--clr-muted);text-transform:uppercase;letter-spacing:.05em;">Último artigo</div>
+      <div style="font-size:11px;margin-top:2px;">"O Mito de Sísifo" — Albert Camus · há 3 dias</div>
+    </div>
+
+    <div class="card-demo">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div style="width:40px;height:40px;border-radius:50%;background:var(--clr-accent-subtle);color:var(--clr-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;">DP</div>
+          <div><b style="font-size:14px;">David Pires</b><br><span style="font-size:11px;color:var(--clr-muted);">CLAS-0005</span></div>
+        </div>
+        <div class="badge" style="background:var(--state-fantasma-bg);color:var(--state-fantasma);"><span class="dot" style="background:var(--state-fantasma);"></span>Fantasma</div>
+      </div>
+      <div style="font-size:10px;font-weight:700;color:var(--clr-muted);text-transform:uppercase;letter-spacing:.05em;">Leituras</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-size:26px;font-weight:800;">0</div>
+        <div style="width:44px;height:44px;background:#EFE7D8;border-radius:8px;"></div>
+      </div>
+      <div style="border-top:1px solid var(--clr-sunken);margin:12px 0 8px;"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--clr-muted);text-transform:uppercase;letter-spacing:.05em;">Último artigo</div>
+      <div style="font-size:11px;margin-top:2px;">"O Mito de Sísifo" — Albert Camus · há 3 dias</div>
+    </div>
+  </div>
+
+  <div class="kicker">Card de citação editorial</div>
+  <div style="background:var(--clr-accent-active);border-radius:var(--radius-lg);padding:26px 30px;color:#fff;max-width:480px;position:relative;overflow:hidden;margin-top:10px;">
+    <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
+    <div style="font-size:20px;color:var(--clr-primary);">📖</div>
+    <div style="font-family:'Playfair Display';font-style:italic;font-size:18px;line-height:1.5;margin-top:12px;position:relative;">
+      "Não é a mais forte das espécies que sobrevive, nem a mais inteligente, mas sim aquela que melhor se adapta à mudança."
+    </div>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:16px;position:relative;">
+      <div style="width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;">CD</div>
+      <div><b style="font-size:12px;">Charles Darwin</b><br><span style="font-size:10px;color:#BFD4EC;">Artigo de 28 jun — sessão #47</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD DE MEMBRO — PERFIL COMPLETO (QR DO PASSE) -->
+<div class="page">
+  <div class="kicker">02 · Componentes</div>
+  <div class="section-title">Card de membro — perfil completo</div>
+  <div class="section-sub">É este o ecrã que o membro vê ao ler o QR code impresso no seu passe físico. Reúne identidade, estado, objetivos de entrada, atividade nas 3 frentes, histórico literário, troféus e resenhas — conforme o modelo do membro do documento de visão.</div>
+
+  <div class="card-demo" style="max-width:100%;padding:22px 26px;">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+      <div style="display:flex;gap:14px;align-items:center;">
+        <div style="width:64px;height:64px;border-radius:50%;background:var(--clr-accent-subtle);color:var(--clr-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;">AF</div>
+        <div>
+          <div style="font-family:'Playfair Display';font-weight:700;font-size:20px;">Ana Ferreira</div>
+          <div style="font-size:11px;color:var(--clr-muted);">Nº de processo <b style="color:var(--clr-text);">CLAS-0042</b> · membro desde jan/2025</div>
+          <div class="badge" style="background:var(--state-ativo-bg);color:var(--state-ativo);margin-top:6px;"><span class="dot" style="background:var(--state-ativo);"></span>Ativo</div>
+        </div>
+      </div>
+      <div class="qr-box" title="QR do passe (referência)"></div>
+    </div>
+
+    <div style="margin-top:6px;font-size:11px;color:var(--clr-muted);font-style:italic;">Objetivo de entrada: <span style="color:var(--clr-text);font-style:normal;">"Ler pelo menos 1 livro por mês e sair da zona de conforto de géneros."</span></div>
+
+    <div class="subhead">Atividade nas 3 frentes</div>
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-num">24</div><div class="stat-label">Leituras / Kwiz</div></div>
+      <div class="stat-box"><div class="stat-num">9</div><div class="stat-label">Debates presentes</div></div>
+      <div class="stat-box"><div class="stat-num">5</div><div class="stat-label">Eventos presentes</div></div>
+    </div>
+
+    <div class="subhead">Troféus & badges</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div class="badge" style="background:linear-gradient(135deg,#FFE8A3,#F2B24C);color:#7A4C00;font-weight:800;transform:rotate(-2deg);box-shadow:0 4px 12px rgba(242,178,76,.4);">🏆 Melhor Kwiz — Mai/26</div>
+      <div class="badge" style="background:linear-gradient(135deg,#FFE8A3,#F2B24C);color:#7A4C00;font-weight:800;transform:rotate(1.5deg);box-shadow:0 4px 12px rgba(242,178,76,.4);">📚 100% presença em debates — Q1</div>
+    </div>
+
+    <div class="subhead">Histórico literário</div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-title">"O Mito de Sísifo" — Albert Camus</div><div class="timeline-meta">Concluído · há 3 dias · sessão #47</div></div>
+      <div class="timeline-item"><div class="timeline-title">"Terra Sonâmbula" — Mia Couto</div><div class="timeline-meta">Concluído · 12 jun · debate + kwiz</div></div>
+      <div class="timeline-item"><div class="timeline-title">Sessão de cinema — CineMax</div><div class="timeline-meta">Evento presencial · 30 mai</div></div>
+    </div>
+
+    <div class="subhead">Resenhas publicadas</div>
+    <div class="card-demo" style="box-shadow:none;background:var(--clr-paper);">
+      <div style="font-family:'Playfair Display';font-style:italic;font-size:13px;">"Um livro curto mas que muda a forma como se pensa sobre o absurdo da vida."</div>
+      <div style="font-size:10px;color:var(--clr-muted);margin-top:6px;">Sobre "O Mito de Sísifo" · publicada há 2 dias</div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="btn" style="background:var(--clr-accent);color:#fff;">📖 Publicar resenha</div>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:16px;">
+    <b>Nota de conteúdo:</b> "Objetivo de entrada" é capturado na inscrição (ver formulário, pág. 15) e mostrado aqui como lembrete pessoal — não é editável pelo próprio membro sem passar pela admin.
+  </div>
+</div>
+
+<!-- ROLES -->
+<div class="page">
+  <div class="kicker">03 · Arquitetura</div>
+  <div class="section-title">Roles & permissões</div>
+  <div class="section-sub">Cinco papéis distintos, cada um com um recorte diferente do site.</div>
+
+  <div class="table-scroll"><table>
+    <tr><th>Role</th><th>Pode fazer</th></tr>
+    <tr><td><span class="badge" style="background:#fff;color:var(--clr-dark);border:1px solid var(--clr-dark);">Visitante</span></td><td>Ver a camada pública, inscrever-se</td></tr>
+    <tr><td><span class="badge" style="background:var(--state-ativo-bg);color:var(--state-ativo);">Membro</span></td><td>Ver o seu card, relatórios, perfil, publicar resenhas</td></tr>
+    <tr><td><span class="badge" style="background:linear-gradient(135deg,var(--clr-primary),var(--clr-primary-hover));color:var(--clr-dark);">🎤 Coordenadora</span></td><td>Marcar presença em debates</td></tr>
+    <tr><td><span class="badge" style="background:linear-gradient(135deg,#F2B24C,#EE9E2C);color:var(--clr-dark);">🎫 Receção</span></td><td>Marcar presença em eventos</td></tr>
+    <tr><td><span class="badge" style="background:linear-gradient(135deg,var(--clr-accent),var(--clr-accent-active));color:#fff;">👑 Admin</span></td><td>Gestão completa: presenças, dados, estatísticas, estados</td></tr>
+  </table></div>
+</div>
+
+<!-- FEEDBACK UI -->
+<div class="page">
+  <div class="kicker">02 · Componentes</div>
+  <div class="section-title">Feedback UI</div>
+  <div class="section-sub">Alertas inline, toasts flutuantes e indicadores de carregamento. Componentes novos — não alteram os existentes.</div>
+
+  <div class="kicker">Alerts</div>
+  <div style="display:flex;flex-direction:column;gap:10px;max-width:420px;margin:10px 0 22px;">
+    <div class="alert alert-success">✅ <div><b>Resenha publicada</b>Já está visível no teu perfil.</div></div>
+    <div class="alert alert-warning">⚠️ <div><b>A entrar em "Em risco"</b>Sem atividade há 40 dias — participa numa sessão para te manteres Ativo.</div></div>
+    <div class="alert alert-danger">⛔ <div><b>Não foi possível guardar</b>Verifica a ligação e tenta novamente.</div></div>
+    <div class="alert alert-info">ℹ️ <div><b>Novo livro do mês</b>"O Mito de Sísifo" já disponível na biblioteca.</div></div>
+  </div>
+
+  <div class="kicker">Toast</div>
+  <div class="toast" style="margin:10px 0 22px;"><span class="toast-icon"></span>Presença marcada com sucesso.</div>
+
+  <div class="kicker">Loaders</div>
+  <div style="display:flex;gap:16px;align-items:center;margin-top:10px;">
+    <div class="spinner"></div>
+    <div style="width:160px;">
+      <div class="skeleton" style="height:12px;width:70%;margin-bottom:6px;"></div>
+      <div class="skeleton" style="height:9px;width:100%;"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FORMULÁRIO DE INSCRIÇÃO -->
+<div class="page">
+  <div class="kicker">03 · Padrões</div>
+  <div class="section-title">Formulário de inscrição</div>
+  <div class="section-sub">Camada pública — "Sobre nós + ação de inscrição". Reutiliza os inputs já definidos; captura o objetivo de entrada usado no card de membro.</div>
+
+  <div class="card-demo" style="max-width:420px;margin-top:12px;">
+    <div style="font-size:11px;font-weight:700;margin-bottom:4px;">Nome completo</div>
+    <div style="height:40px;border:1.5px solid #DDD3C4;border-radius:var(--radius-pill);padding:0 16px;display:flex;align-items:center;color:var(--clr-muted);font-size:12px;margin-bottom:14px;">Ex: Ana Silva</div>
+
+    <div style="font-size:11px;font-weight:700;margin-bottom:4px;">E-mail</div>
+    <div style="height:40px;border:1.5px solid #DDD3C4;border-radius:var(--radius-pill);padding:0 16px;display:flex;align-items:center;color:var(--clr-muted);font-size:12px;margin-bottom:14px;">ana@exemplo.pt</div>
+
+    <div style="font-size:11px;font-weight:700;margin-bottom:4px;">Objetivo de entrada</div>
+    <div style="border:1.5px solid #DDD3C4;border-radius:var(--radius-md);padding:12px 16px;color:var(--clr-muted);font-size:12px;margin-bottom:16px;min-height:56px;">O que esperas ganhar ao entrar para o CLAS?</div>
+
+    <div class="btn" style="background:var(--clr-accent);color:#fff;width:100%;">Inscrever-se</div>
+  </div>
+</div>
+
+<!-- TABELA ADMIN -->
+<div class="page">
+  <div class="kicker">03 · Padrões</div>
+  <div class="section-title">Gestão de membros (admin)</div>
+  <div class="section-sub">Lista usada pelo admin para gerir estado dos membros — combina input de pesquisa, badges de estado e ação em linha.</div>
+
+  <div style="height:40px;max-width:280px;border:1.5px solid #DDD3C4;border-radius:var(--radius-pill);padding:0 16px 0 38px;display:flex;align-items:center;color:var(--clr-muted);font-size:12px;position:relative;margin-bottom:16px;">
+    <span style="position:absolute;left:14px;">🔍</span>Pesquisar membros...
+  </div>
+
+  <div class="table-scroll"><table>
+    <tr><th>Membro</th><th>ID</th><th>Estado</th><th>Leituras</th><th></th></tr>
+    <tr><td>Ana Ferreira</td><td>CLAS-0042</td><td><span class="badge" style="background:var(--state-ativo-bg);color:var(--state-ativo);"><span class="dot" style="background:var(--state-ativo);"></span>Ativo</span></td><td>24</td><td><span style="color:var(--clr-accent);font-weight:700;font-size:11px;">Ver perfil</span></td></tr>
+    <tr><td>Bruno Costa</td><td>CLAS-0017</td><td><span class="badge" style="background:var(--state-risco-bg);color:var(--state-risco);"><span class="dot" style="background:var(--state-risco);"></span>Em risco</span></td><td>8</td><td><span style="color:var(--clr-accent);font-weight:700;font-size:11px;">Ver perfil</span></td></tr>
+    <tr><td>Carla Nunes</td><td>CLAS-0093</td><td><span class="badge" style="background:var(--state-inativo-bg);color:var(--state-inativo);"><span class="dot" style="background:var(--state-inativo);"></span>Inativo</span></td><td>3</td><td><span style="color:var(--clr-accent);font-weight:700;font-size:11px;">Ver perfil</span></td></tr>
+    <tr><td>David Pires</td><td>CLAS-0005</td><td><span class="badge" style="background:var(--state-fantasma-bg);color:var(--state-fantasma);"><span class="dot" style="background:var(--state-fantasma);"></span>Fantasma</span></td><td>0</td><td><span style="color:var(--clr-accent);font-weight:700;font-size:11px;">Ver perfil</span></td></tr>
+  </table></div>
+</div>
+
+</body>
+</html>
