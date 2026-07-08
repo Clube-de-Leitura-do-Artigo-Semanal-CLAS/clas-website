@@ -8,6 +8,17 @@
 
 return [
     // Pública — Tarefas 3.1 a 3.4
+    ['GET', '/login', \App\Controllers\Auth\LoginController::class, 'index'],
+    ['POST', '/login', \App\Controllers\Auth\LoginController::class, 'autenticar'],
+    
+    // Ativação de Conta (SMS OTP)
+    ['GET', '/ativar', \App\Controllers\Auth\ActivationController::class, 'index'],
+    ['POST', '/ativar/verificar-identidade', \App\Controllers\Auth\ActivationController::class, 'verificarIdentidade'],
+    ['GET', '/ativar/otp', \App\Controllers\Auth\ActivationController::class, 'otp'],
+    ['POST', '/ativar/verificar-otp', \App\Controllers\Auth\ActivationController::class, 'verificarOtp'],
+    ['GET', '/ativar/senha', \App\Controllers\Auth\ActivationController::class, 'senha'],
+    ['POST', '/ativar/concluir', \App\Controllers\Auth\ActivationController::class, 'concluir'],
+
     ['GET', '/', \App\Controllers\Publica\HomeController::class, 'index'],
     ['GET', '/sobre', \App\Controllers\Publica\HomeController::class, 'sobre'],
     ['GET', '/concurso-mwangole', \App\Controllers\Publica\ConcursoController::class, 'index'],

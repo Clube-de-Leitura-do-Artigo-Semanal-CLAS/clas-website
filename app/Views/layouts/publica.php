@@ -25,7 +25,7 @@
         <li class="nav-item"><a class="nav-link" href="/concurso-mwangole">MwangoLê</a></li>
         <li class="nav-item"><a class="nav-link" href="/contacto">Contacto</a></li>
         <li class="nav-item ms-lg-3">
-          <a class="btn btn-clas btn-sm px-4" href="/inscricao">Inscrever</a>
+          <a class="btn btn-clas btn-sm px-4" href="/login">Login</a>
         </li>
       </ul>
     </div>
