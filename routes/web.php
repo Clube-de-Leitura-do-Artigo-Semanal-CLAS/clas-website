@@ -16,6 +16,8 @@ return [
     ['POST', '/contacto', \App\Controllers\Publica\ContactoController::class, 'enviar'],
     ['GET', '/eventos', \App\Controllers\Publica\HomeController::class, 'eventos'],
     ['GET', '/inscricao', \App\Controllers\Publica\HomeController::class, 'inscricao'],
+    ['GET', '/membros', \App\Controllers\Publica\ListaMembrosController::class, 'index'],
+    ['GET', '/membro/{id}', \App\Controllers\Publica\PerfilMembroController::class, 'show'],
 
     // Membros — Tarefas 3.6 a 3.9 (exige sessão autenticada)
     ['GET', '/membros/perfil', \App\Controllers\Membros\PerfilController::class, 'index'],
