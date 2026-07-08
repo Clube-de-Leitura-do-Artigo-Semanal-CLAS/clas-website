@@ -11,6 +11,7 @@ class CardController
 {
     public function index(): void
     {
-        require __DIR__ . '/../../Views/membros/card.php';
+        http_response_code(404);
+        echo '<h1 style="font-family: Playfair Display,serif;text-align:center;padding:4rem 1rem;">Página não encontrada</h1>';
     }
 }
