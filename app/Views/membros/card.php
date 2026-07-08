@@ -80,7 +80,6 @@ $membro = $membro ?? [
             </div>
           </div>
         </div>
-        <div class="clas-card-qr"></div>
       </div>
 
       <div class="clas-card-objetivo" style="margin-top: 12px;">
