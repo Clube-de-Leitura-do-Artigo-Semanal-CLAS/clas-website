@@ -68,7 +68,7 @@
               <p class="mb-1 small"><i class="bi bi-check-circle text-success me-1"></i>Workshop: 2.000 KZ</p>
               <p class="mb-0 small"><i class="bi bi-check-circle text-success me-1"></i>Material didático incluído</p>
             </div>
-            <button type="button" class="btn btn-clas mt-auto w-100" data-bs-toggle="modal" data-bs-target="#modalWorkshop">
+            <button type="button" class="btn btn-pri mt-auto w-100" data-bs-toggle="modal" data-bs-target="#modalWorkshop">
               <i class="bi bi-whatsapp me-2"></i>Estou interessado
             </button>
           </div>
