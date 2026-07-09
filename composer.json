@@ -3,7 +3,8 @@
     "description": "Website do CLAS - PHP puro",
     "type": "project",
     "require": {
-        "php": ">=8.1"
+        "php": ">=8.1",
+        "phpoffice/phpspreadsheet": "^5.8"
     },
     "autoload": {
         "psr-4": {
