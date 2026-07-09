@@ -1,13 +1,11 @@
 <?php
-/**
- * Configuração de ligação à base de dados.
- * Lê do .env — nunca metam credenciais diretamente aqui.
- */
 
 return [
-    'host' => getenv('DB_HOST') ?: '127.0.0.1',
-    'name' => getenv('DB_NAME') ?: 'clas_website',
-    'user' => getenv('DB_USER') ?: 'root',
-    'pass' => getenv('DB_PASS') ?: '',
-    'charset' => 'utf8mb4',
+    'driver' => 'pgsql',
+    'host'   => getenv('DB_HOST') ?: 'localhost',
+    'port'   => getenv('DB_PORT') ?: '5432',
+    'name'   => getenv('DB_NAME') ?: 'postgres',
+    'user'   => getenv('DB_USER') ?: 'postgres',
+    'pass'   => getenv('DB_PASS') ?: '',
+    'schema' => getenv('DB_SCHEMA') ?: 'public',
 ];

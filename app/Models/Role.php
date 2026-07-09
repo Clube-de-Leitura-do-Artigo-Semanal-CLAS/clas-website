@@ -3,12 +3,21 @@
 namespace App\Models;
 
 /**
- * Associação entre um utilizador e uma role (visitante, membro,
- * coordenadora, receção, admin). Ver config/roles.php para as permissões.
+ * Constantes de Role para uso na aplicação.
+ *
+ * Os roles são geridos directamente na coluna `role` da tabela `membros`,
+ * não em tabela separada. Esta classe serve apenas como referência
+ * centralizada dos valores válidos.
  */
 class Role
 {
-    public int $id;
-    public int $utilizadorId;
-    public string $nome;
+    const ADMIN           = 'admin';
+    const MEMBRO          = 'membro';
+    const COORD_LEITURA   = 'coordenadora';
+    const RECEPCIONISTA   = 'rececao';
+
+    public static function todos(): array
+    {
+        return [self::ADMIN, self::MEMBRO, self::COORD_LEITURA, self::RECEPCIONISTA];
+    }
 }

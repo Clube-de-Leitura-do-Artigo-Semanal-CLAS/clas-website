@@ -25,8 +25,10 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require __DIR__ . '/../vendor/autoload.php';
 }
 
-// Carrega variáveis de configuração
-$config = require __DIR__ . '/../config/database.php';
+// Carrega o bootstrap que inicializa as variáveis de ambiente (.env)
+require_once __DIR__ . '/../app/bootstrap.php';
+
+// A sessão será gerida pelas rotas que precisarem (ex: RoleMiddleware e LoginController)
 
 // Monta as rotas (pública + membros, admin, api) e despacha o pedido atual
 $router = new \App\Core\Router();

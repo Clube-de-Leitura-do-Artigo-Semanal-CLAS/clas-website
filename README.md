@@ -8,7 +8,7 @@ pública, membros e admin.
 
 ## Stack
 
-- PHP puro (sem framework) — MVC simples, sem Composer packages obrigatórios
+- PHP puro (sem framework) — MVC simples
 - MySQL
 - HTML/CSS/JS no frontend, sem build step
 
@@ -42,9 +42,22 @@ Quando `develop` estiver estável, fazemos merge para `main`.
 
 ## Como correr localmente
 
-1. Copia `.env.example` para `.env` e preenche os dados da tua BD local
-2. Importa as migrations em `database/migrations/` para a tua BD MySQL
-3. Aponta o servidor (Apache/Nginx ou `php -S`) para a pasta `public/`
+Precisas de **PHP 8.1+** e do **Composer**.
+
+```bash
+git clone https://github.com/Clube-de-Leitura-do-Artigo-Semanal-CLAS/clas-website.git
+cd clas-website
+composer install
+cp .env.example .env          # no Windows: copy .env.example .env
+php -S localhost:8000 -t public
+```
+
+Depois abre `http://localhost:8000`. O `-t public` é obrigatório — a pasta
+`public/` é o único ponto de entrada do site.
+
+> **Setup detalhado** (instalar Composer, extensões de PHP por sistema
+> operativo, obter o `CLASID.xlsx` para a página de membros): ver
+> [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Tarefas
 

@@ -15,3 +15,7 @@ Thumbs.db
 # Editor
 .vscode/
 .idea/
+
+# Dados locais gerados a partir de CLASID.xlsx — não sobe para o repo
+/docs/membros.json
+/docs/CLASID.xlsx
