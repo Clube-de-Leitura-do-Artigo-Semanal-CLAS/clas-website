@@ -17,5 +17,5 @@ Thumbs.db
 .idea/
 
 # Dados locais gerados a partir de CLASID.xlsx — não sobe para o repo
-/docs/membros.json
+# /docs/membros.json  # descomentar se não quiser versionar o JSON
 /docs/CLASID.xlsx
