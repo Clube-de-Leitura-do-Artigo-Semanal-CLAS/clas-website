@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CLAS — Clube de Leitura do Artigo Semanal</title>
-<link rel="icon" href="assets/img/logo.gif" type="image/gif" />
+<link rel="icon" href="/assets/img/logo.gif" type="image/gif" />
 <meta name="description" content="A maior plataforma angolana de livros, literatura e cultura. Descobre, lê e compra as melhores obras nacionais e internacionais." />
 <meta name="keywords" content="livros Angola, literatura angolana, ebooks Angola, comprar livros, CLAS.AO" />
 <meta property="og:title" content="CLAS.AO — Cultura, Leitura e Arte de Angola" />
@@ -18,8 +18,8 @@
 
 <header class="site-header">
   <div class="nav-rigth nav">
-    <a href="index.html" class="nav-logo">
-      <img src="assets/img/logo.gif" class="logo-img" alt="">
+    <a href="/" class="nav-logo">
+      <img src="/assets/img/logo.gif" class="logo-img" alt="">
     </a>
 
     <nav class="nav-links">
@@ -32,7 +32,7 @@
     </nav>
 
     <div class="nav-right">
-      <a href="entrar.html" class="btn btn-primary login  " >Login</a>
+      <a href="/login" class="btn btn-primary login  " >Login</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
         <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
@@ -42,13 +42,13 @@
 
   <div class="mobile-menu" id="mobileMenu">
     <div class="container mobile-menu-inner">
-      <a href="index.html">Home</a>
-      <a href="eventos.html">Eventos</a>
-      <a href="sobre.html">Sobre o CLAS</a>
-      <a href="membros.html">Membros</a>
+      <a href="/">Home</a>
+      <a href="/eventos">Eventos</a>
+      <a href="/sobre">Sobre o CLAS</a>
+      <a href="/membros">Membros</a>
       <a href="galeria.html">Galeria</a>
       <a href="#contacto">Contacte-nos</a>
-      <a href="entrar.html" class="btn btn-primary">Login</a>
+      <a href="/login" class="btn btn-primary">Login</a>
     </div>
   </div>
 </header>
@@ -57,25 +57,25 @@
 
 <section class="hero hero-bg">
   <div class="container hero-inner">
-    <img src="assets/img/logo_clas.png" class="img-hero" alt="">
+    <img src="/assets/img/logo_clas.png" class="img-hero" alt="">
     <!--<h1>O clube que<br>transforma</h1 >-->
     <p class="lead">Uma comunidade de leitura em Angola dedicada à exploração <br> literária e ao diálogo semanal.</p>
 
     <div class="hero-actions">
-      <a href="contacte-nos.html" class="btn btn-primary-hero">Inscrever-se</a>
-      <a href="sobre.html" class="btn btn-secundary-hero">Saber mais sobre o CLAS</a>
+      <a href="/contacto" class="btn btn-primary-hero">Inscrever-se</a>
+      <a href="/sobre" class="btn btn-secundary-hero">Saber mais sobre o CLAS</a>
     </div>
   </div>
 
   <div class=" hero-fan-wrap" aria-label="Colecção de livros em destaque">
     <div class="fan-stage">
-      <div class="fan-card fan-card--1"><img src="assets/img/capas/book-1.png" alt="Por Baixo da Capa" /></div>
-      <div class="fan-card fan-card--2"><img src="assets/img/capas/book-2.png" alt="Dragão de Cristal" /></div>
-      <div class="fan-card fan-card--3"><img src="assets/img/capas/book-3.png" alt="Está Chovendo Estrelas" /></div>
-      <div class="fan-card fan-card--4"><img src="assets/img/capas/book-4.png" alt="As Aventuras de Ngunga" /></div>
-      <div class="fan-card fan-card--5"><img src="assets/img/capas/book-5.png" alt="Terra Sonâmbula" /></div>
-      <div class="fan-card fan-card--6"><img src="assets/img/capas/book-6.png" alt="O Segredo nas Sombras" /></div>
-      <div class="fan-card fan-card--7"><img src="assets/img/capas/book-7.png" alt="É Assim que Acaba" /></div>
+      <div class="fan-card fan-card--1"><img src="/assets/img/capas/book-1.png" alt="Por Baixo da Capa" /></div>
+      <div class="fan-card fan-card--2"><img src="/assets/img/capas/book-2.png" alt="Dragão de Cristal" /></div>
+      <div class="fan-card fan-card--3"><img src="/assets/img/capas/book-3.png" alt="Está Chovendo Estrelas" /></div>
+      <div class="fan-card fan-card--4"><img src="/assets/img/capas/book-4.png" alt="As Aventuras de Ngunga" /></div>
+      <div class="fan-card fan-card--5"><img src="/assets/img/capas/book-5.png" alt="Terra Sonâmbula" /></div>
+      <div class="fan-card fan-card--6"><img src="/assets/img/capas/book-6.png" alt="O Segredo nas Sombras" /></div>
+      <div class="fan-card fan-card--7"><img src="/assets/img/capas/book-7.png" alt="É Assim que Acaba" /></div>
     </div>
   </div>
 </section>
@@ -223,7 +223,7 @@
 <footer class="site-footer section-bg">
   <div class="container">
     <span class="footer-logo">
-      <img src="assets/img/logo.gif" class="logo-img" alt="">
+      <img src="/assets/img/logo.gif" class="logo-img" alt="">
     </span>
     <span class="footer-copy">© 2026 Clube de Leitura do Artigo Semanal. Todos os direitos reservados.</span>
   </div>

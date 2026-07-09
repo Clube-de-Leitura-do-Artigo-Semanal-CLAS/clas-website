@@ -5,28 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Entrar no CLAS</title>
 <meta name="description" content="Acede à tua área de membro do CLAS.">
-<link rel="stylesheet" href="assets/css/entrar.css">
+<link rel="stylesheet" href="/assets/css/entrar.css">
 </head>
 <body>
 
 
 <header class="site-header">
   <div class="container nav">
-    <a href="index.html" class="nav-logo">
-      <img src="assets/img/logo.gif" class="logo-img" alt="">
+    <a href="/" class="nav-logo">
+      <img src="/assets/img/logo.gif" class="logo-img" alt="">
     </a>
 
     <nav class="nav-links">
       <a href="#sobre.html">Sobre o CLAS</a>
-      <a href="membros.html">Membros</a>
-      <a href="eventos.html">Eventos</a>
+      <a href="/membros">Membros</a>
+      <a href="/eventos">Eventos</a>
       <a href="projetos.html">Projetos</a>
       <a href="parceiros" class="nav-gap">Parceiros</a>
       <a href="#contacte-nos.html">Contacte-nos</a>
     </nav>
 
     <div style="display:flex; align-items:center; gap:10px;">
-      <a href="entrar.html" class="btn btn-primary nav-cta">Login</a>
+      <a href="/login" class="btn btn-primary nav-cta">Login</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
         <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
@@ -36,12 +36,12 @@
 
   <div class="mobile-menu" id="mobileMenu">
     <div class="container mobile-menu-inner">
-      <a href="index.html">Home</a>
-      <a href="sobre.html">Sobre o CLAS</a>
-      <a href="membros.html">Membros</a>
-      <a href="eventos.html">Eventos</a>
-      <a href="contacte-nos.html">Contacte-nos</a>
-      <a href="entrar.html" class="btn btn-primary">Login</a>
+      <a href="/">Home</a>
+      <a href="/sobre">Sobre o CLAS</a>
+      <a href="/membros">Membros</a>
+      <a href="/eventos">Eventos</a>
+      <a href="/contacto">Contacte-nos</a>
+      <a href="/login" class="btn btn-primary">Login</a>
     </div>
   </div>
 </header>
@@ -80,7 +80,7 @@
       </div>
     </div>
 
-    <p class="auth-footnote">Ainda não és membro? <a href="contacte-nos.html">Inscrever-se</a></p>
+    <p class="auth-footnote">Ainda não és membro? <a href="/contacto">Inscrever-se</a></p>
   </div>
 </section>
 
@@ -88,7 +88,7 @@
 <footer class="site-footer section-bg">
   <div class="container">
     <span class="footer-logo">
-      <img src="assets/img/logo.gif" class="logo-img" alt="">
+      <img src="/assets/img/logo.gif" class="logo-img" alt="">
     </span>
     <span class="footer-copy">© 2026 Clube de Leitura do Artigo Semanal. Todos os direitos reservados.</span>
   </div>
