@@ -79,7 +79,7 @@ class Membro
     public static function obterPorEmailOuIdClas(string $identificador): ?Membro
     {
         $pdo = \App\Services\Database::getInstance();
-        $stmt = $pdo->prepare("SELECT * FROM membros WHERE email = :identificador OR id_clas = :identificador LIMIT 1");
+        $stmt = $pdo->prepare("SELECT * FROM membros WHERE email = :identificador OR numero_processo = :identificador LIMIT 1");
         $stmt->bindValue(':identificador', $identificador);
         $stmt->execute();
         

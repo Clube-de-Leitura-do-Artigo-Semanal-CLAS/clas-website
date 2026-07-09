@@ -99,7 +99,7 @@
             <?php else: ?>
               <?php foreach ($membros as $membro): ?>
               <tr>
-                <td style="font-weight: 600; color: var(--c-primary);"><?= htmlspecialchars($membro->id_clas) ?></td>
+                <td style="font-weight: 600; color: var(--c-primary);"><?= htmlspecialchars($membro->numero_processo) ?></td>
                 <td>
                   <div class="td-product">
                     <img src="https://ui-avatars.com/api/?name=<?= urlencode($membro->nome) ?>&background=random" alt="Avatar" style="border-radius: 50%;" />
