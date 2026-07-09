@@ -6,14 +6,14 @@
 }
 
 :root {
-  --clr-primary:    #EE9E2C; 
+  --clr-primary:    #fdd111; 
   --clr-primary-dk: #8f0c20;
   --clr-accent:     #195bdb;   
   --clr-dark:       #1a1008;
   --clr-text:       #2d1f0e;
   --clr-muted:      #7a6452;
   --clr-paper:      #faf6f0;
-  --accent:      #ffffff;
+  --clr-white:      #ffffff;
   --clr-ink:        #1a1008;
 
   --shadow-book: 0 20px 60px rgba(26,16,8,0.25), 0 6px 20px rgba(26,16,8,0.15);
@@ -78,7 +78,7 @@ body {
 .login-right {
   flex: 1.2;
   padding: 40px 64px;
-  background: var(--accent);
+  background: var(--clr-white);
 }
 
 .login-title {
@@ -146,10 +146,10 @@ body {
   width: 100%;
   padding: 14px;
   background: var(--clr-primary);
-  color: var(--clr-text);
+  color: #fff;
   border: none;
   border-radius: 99px;
-  font-family: 'Manrope', sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;

@@ -17,6 +17,7 @@ return [
     ['POST', '/admin/presencas', \App\Controllers\Admin\PresencasController::class, 'marcar', ['coordenadora', 'rececao', 'admin']],
     ['GET',  '/admin/membros', \App\Controllers\Admin\MembrosController::class, 'index', ['admin']],
     ['GET',  '/admin/membros/{id}', \App\Controllers\Admin\MembrosController::class, 'show', ['admin']],
+    ['POST', '/admin/membros/role', \App\Controllers\Admin\MembrosController::class, 'updateRole', ['admin']],
     ['POST', '/admin/roles', \App\Controllers\Admin\RolesController::class, 'atribuir', ['admin']],
     ['GET',  '/admin/estatisticas', \App\Controllers\Admin\EstatisticasController::class, 'index', ['admin']],
 ];
