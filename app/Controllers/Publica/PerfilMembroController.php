@@ -15,7 +15,7 @@ class PerfilMembroController
 
         if (!$membro) {
             http_response_code(404);
-            echo '<h1 style="font-family: Playfair Display,serif;text-align:center;padding:4rem 1rem;">Membro n\u00e3o encontrado</h1>';
+            echo '<h1 style="font-family: Playfair Display,serif;text-align:center;padding:4rem 1rem;">Membro não encontrado</h1>';
             return;
         }
 

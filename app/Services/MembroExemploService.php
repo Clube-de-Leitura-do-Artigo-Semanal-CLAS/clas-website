@@ -51,7 +51,17 @@ class MembroExemploService
 
     public static function buscar(string $id): ?array
     {
-        return self::todos()[$id] ?? null;
+        $todos = self::todos();
+
+        // Procura primeiro pelo nº de processo (ex: CLAS0042) — é o que os
+        // links da lista usam. Como fallback, aceita também a chave numérica.
+        foreach ($todos as $membro) {
+            if (isset($membro['processo']) && $membro['processo'] === $id) {
+                return $membro;
+            }
+        }
+
+        return $todos[$id] ?? null;
     }
 
     /**
