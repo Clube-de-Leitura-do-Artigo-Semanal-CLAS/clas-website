@@ -27,7 +27,7 @@ O projeto lê ficheiros Excel (lista de membros), o que precisa de algumas exten
 **Linux (Ubuntu/Debian) — ajusta o número à tua versão de PHP (ex: 8.3):**
 ```bash
 sudo apt update
-sudo apt install php8.3-dom php8.3-gd php8.3-mbstring php8.3-xml php8.3-zip php8.3-curl
+sudo apt install php8.3-dom php8.3-gd php8.3-mbstring php8.3-xml php8.3-zip php8.3-curl php8.3-pgsql
 ```
 
 **Mac (Homebrew):** já vêm incluídas no `brew install php`.
