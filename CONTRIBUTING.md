@@ -151,3 +151,29 @@ docs: adiciona README explicando pasta app/Services
 - Confirma que o código corre localmente sem erros
 - Se mexeste em `app/Services/EstadoMembroService.php`, revê se as janelas de tempo (45/60/90 dias) continuam corretas — é a lógica mais sensível do projeto
 - Descreve no PR a que tarefa do Project corresponde (ex: "Resolve #2.4 — Sistema de roles e permissões")
+
+## Estrutura das páginas (importante)
+
+Todas as páginas seguem o mesmo padrão. NÃO metas HTML completo (com DOCTYPE,
+head, navbar) em cada página. O layout partilhado trata disso.
+
+Cada view em `app/Views/publica/` deve ter só o conteúdo, assim:
+
+```php
+<?php $title = 'Nome da Página'; ?>
+<?php ob_start(); ?>
+
+  <!-- só o conteúdo da página aqui -->
+
+<?php $content = ob_get_clean(); ?>
+<?php require __DIR__ . '/../layouts/publica.php'; ?>
+```
+
+Regras:
+1. A navbar, o footer e o carregamento de CSS estão no layout
+   (`app/Views/layouts/publica.php`). Nunca os repitas dentro de uma página.
+2. Nunca edites o `public/index.php` para adicionar páginas. As páginas
+   ligam-se por rotas em `routes/web.php`, não por HTML no index.
+3. Usa só as classes do `main.css` (é o único CSS que o layout carrega).
+   Não uses classes do Bootstrap, o projeto não usa Bootstrap.
+4. Estilos novos vão para o `main.css`, não em ficheiros CSS separados.
