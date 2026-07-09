@@ -24,9 +24,9 @@
 
     <nav class="nav-links">
       <a href="#sobre">Sobre o CLAS</a>
-      <a href="/home/esmeralda/clas-website/app/Views/publica/membros.php">Membros</a>
-      <a href="/eventos.php/home/esmeralda/clas-website/app/Views/publica/eventos.php">Eventos</a>
-      <a href="/projetos.php">Projetos</a>
+      <a href="/membros">Membros</a>
+      <a href="/eventos">Eventos</a>
+      <a href="/projetos">Projetos</a>
       <a href="/parceiros" class="nav-gap">Parceiros</a>
       <a href="#contacto">Contacte-nos</a>
     </nav>
