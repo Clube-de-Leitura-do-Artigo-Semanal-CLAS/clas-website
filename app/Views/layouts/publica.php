@@ -23,12 +23,12 @@
     </a>
 
     <nav class="nav-links">
-      <a href="#sobre">Sobre o CLAS</a>
+      <a href="/sobre">Sobre o CLAS</a>
       <a href="/membros">Membros</a>
       <a href="/eventos">Eventos</a>
       <a href="/projetos">Projetos</a>
       <a href="/parceiros" class="nav-gap">Parceiros</a>
-      <a href="#contacto">Contacte-nos</a>
+      <a href="/contacto">Contacte-nos</a>
     </nav>
 
     <div class="nav-right">
@@ -47,7 +47,7 @@
       <a href="/sobre">Sobre o CLAS</a>
       <a href="/membros">Membros</a>
       <a href="galeria.html">Galeria</a>
-      <a href="#contacto">Contacte-nos</a>
+      <a href="/contacto">Contacte-nos</a>
       <a href="/login" class="btn btn-primary">Login</a>
     </div>
   </div>
