@@ -1,10 +1,14 @@
 -- Tarefa 2.6 — relatórios de turma recebidos via API do KwiZ
-CREATE TABLE kwiz_relatorios (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    membro_id INT NOT NULL,
-    quiz_id VARCHAR(100) NOT NULL,
-    pontuacao INT NOT NULL,
-    recebido_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    payload_bruto JSON NULL, -- guarda o payload original do KwiZ para debug
-    FOREIGN KEY (membro_id) REFERENCES membros(id)
+-- PostgreSQL / Supabase
+
+CREATE TABLE public.kwiz_relatorios (
+    id            INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    membro_id     INTEGER NOT NULL,
+    quiz_id       VARCHAR(100) NOT NULL,
+    pontuacao     INTEGER NOT NULL,
+    recebido_em   TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
+    payload_bruto JSONB NULL,  -- payload original do KwiZ, para debug
+
+    CONSTRAINT kwiz_relatorios_membro_fkey FOREIGN KEY (membro_id)
+        REFERENCES public.membros (id) ON DELETE CASCADE
 );
