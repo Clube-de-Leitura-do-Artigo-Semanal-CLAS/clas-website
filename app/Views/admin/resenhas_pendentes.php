@@ -37,6 +37,7 @@
               <th>Membro</th>
               <th>Nº Processo</th>
               <th>Livro</th>
+              <th>Autor</th>
               <th>Texto</th>
               <th>Data</th>
               <th>Ação</th>
@@ -44,13 +45,14 @@
           </thead>
           <tbody>
             <?php if (empty($resenhas)): ?>
-              <tr><td colspan="6" style="text-align:center;padding:20px;">Nenhuma resenha pendente.</td></tr>
+              <tr><td colspan="7" style="text-align:center;padding:20px;">Nenhuma resenha pendente.</td></tr>
             <?php else: ?>
               <?php foreach ($resenhas as $r): ?>
               <tr>
                 <td><?= htmlspecialchars($r['membro_nome']) ?></td>
                 <td><?= htmlspecialchars($r['numero_processo']) ?></td>
                 <td><?= htmlspecialchars($r['livro']) ?></td>
+                <td><?= htmlspecialchars($r['autor'] ?? '') ?></td>
                 <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"><?= htmlspecialchars(mb_substr($r['texto'], 0, 100)) ?>...</td>
                 <td><?= date('d/m/Y', strtotime($r['criada_em'])) ?></td>
                 <td>

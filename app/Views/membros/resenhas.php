@@ -17,6 +17,12 @@
         </div>
 
         <div>
+          <label style="font-size: 0.8rem; font-weight: 700; color: var(--clr-text); display: block; margin-bottom: 4px;">Autor do Livro</label>
+          <input type="text" name="autor" placeholder="Ex: Mia Couto"
+            style="width: 100%; height: 44px; border: 1.5px solid var(--clr-border); border-radius: var(--radius-md); padding: 0 14px; font-family: 'Manrope', sans-serif; font-size: 0.85rem; outline: none;">
+        </div>
+
+        <div>
           <label style="font-size: 0.8rem; font-weight: 700; color: var(--clr-text); display: block; margin-bottom: 4px;">A tua resenha <span style="font-weight:400;color:var(--clr-muted);">(Markdown)</span></label>
           <div style="display:flex; gap:4px; margin-bottom: 6px; flex-wrap:wrap;">
             <button type="button" onclick="wrapText('**','**')" title="Negrito" style="padding:6px 10px;border:1px solid var(--clr-border);border-radius:4px;background:var(--clr-white);cursor:pointer;font-weight:700;">B</button>

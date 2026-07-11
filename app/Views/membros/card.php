@@ -165,7 +165,7 @@ $membro = $membro ?? [
               <div style="flex: 1;">
                 <div style="font-size: 0.85rem; font-weight: 700; color: var(--clr-dark);"><?= $membro['nome'] ?></div>
                 <div style="font-size: 0.65rem; color: var(--clr-muted);">
-                  Resenha de "<?= htmlspecialchars($r->livro) ?>" · <?= date('d/m/Y', strtotime($r->criadaEm)) ?>
+                  Resenha de "<?= htmlspecialchars($r->livro) ?>"<?= $r->autor ? ' — ' . htmlspecialchars($r->autor) : '' ?> · <?= date('d/m/Y', strtotime($r->criadaEm)) ?>
                 </div>
               </div>
               <?php if ($r->estadoModeracao !== 'aprovada'): ?>

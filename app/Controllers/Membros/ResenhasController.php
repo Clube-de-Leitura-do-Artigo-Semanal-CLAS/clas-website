@@ -60,6 +60,7 @@ class ResenhasController
         }
 
         $livro = trim($_POST['livro'] ?? '');
+        $autor = trim($_POST['autor'] ?? '');
         $texto = trim($_POST['texto'] ?? '');
 
         if ($livro === '' || $texto === '') {
@@ -69,7 +70,7 @@ class ResenhasController
         }
 
         try {
-            $id = Resenha::criar((int) $membroId, $livro, $texto);
+            $id = Resenha::criar((int) $membroId, $livro, $autor, $texto);
             if (!$id) {
                 throw new \RuntimeException('Erro ao inserir');
             }

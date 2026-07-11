@@ -33,9 +33,20 @@
 
       <div style="background:#fff;border-radius:12px;padding:2rem;max-width:700px;">
         <p style="margin-bottom:0.5rem;"><strong>Membro:</strong> <?= htmlspecialchars($resenha->membroId) ?></p>
-        <p style="margin-bottom:1.5rem;"><strong>Livro:</strong> <?= htmlspecialchars($resenha->livro) ?></p>
 
         <form method="POST" action="/admin/resenhas/<?= $resenha->id ?>/moderar">
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">Título do Livro</label>
+            <input type="text" name="livro" value="<?= htmlspecialchars($resenha->livro) ?>" required
+              style="width:100%;height:44px;border:1.5px solid var(--clr-border);border-radius:8px;padding:0 12px;font-family:inherit;font-size:0.9rem;">
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <label style="display:block;font-weight:600;margin-bottom:4px;">Autor do Livro</label>
+            <input type="text" name="autor" value="<?= htmlspecialchars($resenha->autor) ?>"
+              style="width:100%;height:44px;border:1.5px solid var(--clr-border);border-radius:8px;padding:0 12px;font-family:inherit;font-size:0.9rem;">
+          </div>
+
           <div style="margin-bottom:1.5rem;">
             <label style="display:block;font-weight:600;margin-bottom:6px;">Texto da resenha (podes editar)</label>
             <textarea name="texto" rows="8" required

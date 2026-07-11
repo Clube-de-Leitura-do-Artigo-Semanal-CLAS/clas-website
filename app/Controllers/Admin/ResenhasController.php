@@ -37,6 +37,8 @@ class ResenhasController
             return;
         }
 
+        $livro = trim($_POST['livro'] ?? '');
+        $autor = trim($_POST['autor'] ?? '');
         $texto = trim($_POST['texto'] ?? '');
         $accao = $_POST['accao'] ?? ''; // 'aprovar' | 'rejeitar'
 
@@ -46,6 +48,7 @@ class ResenhasController
             return;
         }
 
+        Resenha::editarLivroAutor((int) $id, $livro, $autor);
         Resenha::editarTexto((int) $id, $texto);
 
         if ($accao === 'aprovar') {

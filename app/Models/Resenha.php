@@ -11,20 +11,22 @@ class Resenha
     public int $id;
     public int $membroId;
     public string $livro;
+    public string $autor;
     public string $texto;
     public string $estadoModeracao;
     public string $criadaEm;
 
-    public static function criar(int $membroId, string $livro, string $texto): ?int
+    public static function criar(int $membroId, string $livro, string $autor, string $texto): ?int
     {
         $pdo = \App\Services\Database::getInstance();
         $stmt = $pdo->prepare("
-            INSERT INTO resenhas (membro_id, livro, texto, estado_moderacao)
-            VALUES (:membro_id, :livro, :texto, 'pendente')
+            INSERT INTO resenhas (membro_id, livro, autor, texto, estado_moderacao)
+            VALUES (:membro_id, :livro, :autor, :texto, 'pendente')
             RETURNING id
         ");
         $stmt->bindValue(':membro_id', $membroId, \PDO::PARAM_INT);
         $stmt->bindValue(':livro', $livro);
+        $stmt->bindValue(':autor', $autor);
         $stmt->bindValue(':texto', $texto);
         $stmt->execute();
         return (int) $stmt->fetchColumn();
@@ -61,6 +63,16 @@ class Resenha
         $pdo = \App\Services\Database::getInstance();
         $stmt = $pdo->prepare("UPDATE resenhas SET texto = :texto WHERE id = :id");
         $stmt->bindValue(':texto', $texto);
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    public static function editarLivroAutor(int $id, string $livro, string $autor): bool
+    {
+        $pdo = \App\Services\Database::getInstance();
+        $stmt = $pdo->prepare("UPDATE resenhas SET livro = :livro, autor = :autor WHERE id = :id");
+        $stmt->bindValue(':livro', $livro);
+        $stmt->bindValue(':autor', $autor);
         $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
         return $stmt->execute();
     }
