@@ -8,6 +8,10 @@
   --brand-subtle :#EAF2FB;
   --accent : #EE9E2C;
   --accent-hover : #dd8a17;
+  --clr-accent: #1B4F8C;
+  --clr-white: #ffffff;
+  --clr-dark: #1a1008;
+  --clr-text: #2d1f0e;
   --accent-subtle : #FDF3E1;
   --ativo : #2F6B3B;
   --em-risco : #C97A24;
@@ -618,6 +622,10 @@ img{ max-width:100%; display:block; }
   --brand-subtle :#EAF2FB;
   --accent : #EE9E2C;
   --accent-hover : #dd8a17;
+  --clr-accent: #1B4F8C;
+  --clr-white: #ffffff;
+  --clr-dark: #1a1008;
+  --clr-text: #2d1f0e;
   --accent-subtle : #FDF3E1;
   --ativo : #2F6B3B;
   --em-risco : #C97A24;
@@ -954,3 +962,10 @@ img{ max-width:100%; display:block; }
 @media (max-width: 700px) {
   .contacto-wrap { grid-template-columns: 1fr; }
 }
+
+.clas-badge-pendente { background: #FFF5D9; color: #92600A; }
+.clas-badge-pendente .clas-badge-dot { background: #F5B342; }
+.clas-badge-aprovada { background: #E4F5E6; color: #1B7A2B; }
+.clas-badge-aprovada .clas-badge-dot { background: #1B7A2B; }
+.clas-badge-rejeitada { background: #FFE4E4; color: #B33A3A; }
+.clas-badge-rejeitada .clas-badge-dot { background: #E05050; }
