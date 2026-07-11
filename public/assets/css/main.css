@@ -149,9 +149,7 @@ img{ max-width:100%; display:block; }
 }
 
 
-/* ==========================================================
-   HEADER / NAV (única definição — válida em todas as páginas)
-========================================================== */
+/*header */
 .site-header{
     position:fixed;
     top:0;
@@ -200,9 +198,9 @@ img{ max-width:100%; display:block; }
     margin-left:0;
 }
 
-.login{
+.nav-right > .login{
     margin-left: 70px;
-    display:none;   /* escondido por omissão — só aparece em ecrãs >=860px */
+    display:none;   
 }
 
 .nav-links a{ padding-bottom:4px; border-bottom:2px solid transparent; }
@@ -252,7 +250,7 @@ img{ max-width:100%; display:block; }
 @media (min-width: 860px){
   .nav-links{ display:flex; }
   .nav-cta{ display:inline-flex; }
-  .login{ display:inline-flex; }
+  .nav-right > .login{ display:inline-flex; }
   .nav-toggle{ display:none; }
   .mobile-menu{ display:none; }
 }
@@ -471,7 +469,7 @@ img{ max-width:100%; display:block; }
   .stats{ grid-template-columns: repeat(4,1fr); }
 }
 
-/* ---------- missão / visão ---------- */
+/* missão / visão */
 .mv-grid{
   display:grid;
   gap:28px;

@@ -12,7 +12,7 @@
 <meta property="og:type" content="website" />
 
 <link rel="stylesheet" href="/assets/css/main.css">
-
+<link rel="stylesheet" href="/assets/css/membro.css">
 </head>
 <body>
 
@@ -30,7 +30,7 @@
     </nav>
 
     <div class="nav-right">
-      <a href="/login" class="btn btn-primary login" >Login</a>
+      <a href="/login.php" class="btn btn-primary login" >Login</a>
       <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false">
         <svg class="icon-open" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
         <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#1A1008" stroke-width="2.2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
@@ -44,7 +44,10 @@
       <a href="/membros">Membros</a>
       <a href="/eventos">Eventos</a>
       <a href="/contacto" class="nav-gap">Contacte-nos</a>
+      <a href="/login.php" class="btn btn-primary login" >Login</a>
     </div>
+
+  </div>
   </div>
 </header>
 
