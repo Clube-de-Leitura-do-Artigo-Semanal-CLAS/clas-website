@@ -75,6 +75,9 @@ $membro = $membro ?? [
           <div>
             <div class="clas-card-name"><?= $membro['nome'] ?></div>
             <div class="clas-card-meta">Nº <b><?= $membro['processo'] ?></b> · desde <?= $membro['membro_desde'] ?></div>
+            <div class="clas-badge clas-badge-<?= $membro['estado'] ?>" style="margin-top: 6px;">
+              <span class="clas-badge-dot"></span><?= ucfirst($membro['estado']) ?>
+            </div>
           </div>
         </div>
       </div>

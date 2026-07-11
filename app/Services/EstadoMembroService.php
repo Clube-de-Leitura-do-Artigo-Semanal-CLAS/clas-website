@@ -9,7 +9,7 @@ namespace App\Services;
  *   0–45 dias sem nenhuma das 3 frentes  -> ativo
  *   45–60 dias                            -> em_risco
  *   60 dias–3 meses                       -> inativo
- *   3+ meses                              -> fantasma
+ *   3+ meses                              -> adormecido
  *
  * As 3 frentes que contam: presença em debate, presença em evento,
  * participação em Kwiz (via relatório recebido do KwiZ).
@@ -44,7 +44,7 @@ class EstadoMembroService
         if ($dias <= self::DIAS_INATIVO) {
             return 'inativo';
         }
-        return 'fantasma';
+        return 'adormecido';
     }
 
     public function reativar(int $membroId): void

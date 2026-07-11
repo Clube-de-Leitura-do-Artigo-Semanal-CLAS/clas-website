@@ -23,10 +23,11 @@
           />
         </div>
         <select id="ordenarMembros" onchange="ordenarMembros(this.value)" style="height: 46px; border: 1.5px solid var(--clr-border); border-radius: var(--radius-md); padding: 0 14px; font-size: 0.8rem; font-family: 'Manrope', sans-serif; outline: none; color: var(--clr-text); background: var(--clr-white); cursor: pointer;">
-          <option value="padrao">Por ranking</option>
+          <option value="id" selected>Nº crescente</option>
           <option value="alfa">Alfabético A-Z</option>
-          <option value="id">Nº crescente</option>
+          <option value="padrao">Por ranking</option>
         </select>
+        <script>document.addEventListener('DOMContentLoaded', () => ordenarMembros('id'));</script>
       </div>
     </div>
 
@@ -120,6 +121,13 @@ function filtrarMembros(valor) {
   const grid = document.getElementById('membrosGrid');
   let apareceu = false;
 
+  if (termo === '') {
+    cards.forEach(c => { c.style.display = 'block'; c.style.order = ''; });
+    document.getElementById('membroEmpty').style.display = 'none';
+    ordenarMembros(document.getElementById('ordenarMembros').value);
+    return;
+  }
+
   const comPontos = [];
 
   cards.forEach(c => {
@@ -136,7 +144,7 @@ function filtrarMembros(valor) {
     }
   });
 
-  if (comPontos.length > 0 && termo.length > 0) {
+  if (comPontos.length > 0) {
     comPontos.sort((a, b) => b.pontos - a.pontos);
     comPontos.forEach(item => grid.appendChild(item.card));
   }
@@ -159,28 +167,7 @@ function ordenarMembros(criterio) {
     return 0;
   });
 
-  cards.forEach(c => {
-    c.style.order = '';
-    grid.appendChild(c);
-  });
-}
-
-function ordenarMembros(criterio) {
-  const grid = document.getElementById('membrosGrid');
-  const cards = Array.from(grid.querySelectorAll('.membro-card'));
-
-  cards.sort((a, b) => {
-    const nomeA = a.getAttribute('data-nome');
-    const nomeB = b.getAttribute('data-nome');
-    const idA = parseInt(a.getAttribute('data-id').replace('clas', ''));
-    const idB = parseInt(b.getAttribute('data-id').replace('clas', ''));
-
-    if (criterio === 'alfa') return nomeA.localeCompare(nomeB);
-    if (criterio === 'id') return idA - idB;
-    return 0;
-  });
-
-  cards.forEach(c => grid.appendChild(c));
+  cards.forEach(c => { c.style.order = ''; grid.appendChild(c); });
 }
 </script>
 
