@@ -403,3 +403,16 @@ body {
 .page-dots {
   color: var(--c-text-light);
 }
+
+.estado-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.estado-ativo { background: #d4edda; color: #155724; }
+.estado-em_risco { background: #fff3cd; color: #856404; }
+.estado-inativo { background: #f8d7da; color: #721c24; }
+.estado-adormecido { background: #e2e3e5; color: #383d41; }

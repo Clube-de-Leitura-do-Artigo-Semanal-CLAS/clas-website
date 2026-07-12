@@ -956,3 +956,30 @@ img{ max-width:100%; display:block; }
 .footer-bottom-links a {
   font-size: 16px;
 }
+
+.clas-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  font-family: 'Manrope', sans-serif;
+  width: fit-content;
+}
+.clas-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.clas-badge-ativo { background: #E4F5E6; color: #1B7A2B; }
+.clas-badge-ativo .clas-badge-dot { background: #1B7A2B; }
+.clas-badge-em_risco { background: #FFF5D9; color: #92600A; }
+.clas-badge-em_risco .clas-badge-dot { background: #F5B342; }
+.clas-badge-inativo { background: #FFE4E4; color: #B33A3A; }
+.clas-badge-inativo .clas-badge-dot { background: #E05050; }
+.clas-badge-adormecido { background: #EEEEEE; color: #666666; }
+.clas-badge-adormecido .clas-badge-dot { background: #999999; }
