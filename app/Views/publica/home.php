@@ -103,8 +103,37 @@
       <p class="section-subtitle">Debates, sessões e encontros do clube.</p>
     </div>
 
+    <div class="event-grid">
+      <article class="event-card">
+        <div class="event-card-media"><span class="event-badge">Debate</span></div>
+        <div class="event-card-body">
+          <h4>Análise Crítica: "O Futuro da Edição"</h4>
+          <div class="event-card-date">24 Julho, 2026</div>
+          <a href="/eventos" class="btn btn-outline btn-sm">Saber mais</a>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card-media"><span class="event-badge">Concurso</span></div>
+        <div class="event-card-body">
+          <h4>Concurso Literário MwangoLê</h4>
+          <div class="event-card-date">2 Agosto, 2026</div>
+          <a href="/concurso-mwangole" class="btn btn-outline btn-sm">Saber mais</a>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card-media"><span class="event-badge">Sessão</span></div>
+        <div class="event-card-body">
+          <h4>Sessão de Leitura Semanal</h4>
+          <div class="event-card-date">10 Agosto, 2026</div>
+          <a href="/eventos" class="btn btn-outline btn-sm">Saber mais</a>
+        </div>
+      </article>
+    </div>
+
     <div style="text-align:center; margin-top: 32px;">
-      <a href="/eventos" class="btn btn-primary">Ver todos os eventos</a>
+      <a href="/eventos" class="btn btn-primary">Ver mais eventos</a>
     </div>
   </div>
 </section>

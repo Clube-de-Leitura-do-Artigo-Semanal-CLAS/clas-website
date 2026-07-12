@@ -193,7 +193,11 @@ function ordenarMembros(criterio) {
     const idA = parseInt(a.getAttribute('data-id').replace('clas', ''));
     const idB = parseInt(b.getAttribute('data-id').replace('clas', ''));
 
-    if (criterio === 'alfa') return nomeA.localeCompare(nomeB);
+    if (criterio === 'alfa') {
+      // Ignora pontuação (ex: "P. Bosco" ordena como "P Bosco") e acentos
+      const limpar = s => s.replace(/[.,'`´]/g, '').trim();
+      return limpar(nomeA).localeCompare(limpar(nomeB), 'pt', { sensitivity: 'base' });
+    }
     if (criterio === 'id') return idA - idB;
     return 0;
   });

@@ -226,7 +226,9 @@ button{ font-family:inherit; cursor:pointer; }
   padding:14px 20px;
 }
 .rank-num{
-  font-family:'Playfair Display', serif;
+  font-family:'Manrope', sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: 0.02em;
   font-weight:700;
   font-size:17px;
   color: var(--clr-ink-dark);
