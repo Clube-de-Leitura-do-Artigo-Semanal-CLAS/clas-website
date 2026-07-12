@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Publica;
 
-use App\Services\MembroExemploService;
+use App\Services\MembroService;
 
 /**
  * Perfil público de um membro — Tarefa 3.6
@@ -11,7 +11,7 @@ class PerfilMembroController
 {
     public function show(string $id): void
     {
-        $membro = MembroExemploService::buscar($id);
+        $membro = MembroService::buscar($id);
 
         if (!$membro) {
             http_response_code(404);

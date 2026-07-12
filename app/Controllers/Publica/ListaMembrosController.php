@@ -2,7 +2,7 @@
 
 namespace App\Controllers\Publica;
 
-use App\Services\MembroExemploService;
+use App\Services\MembroService;
 
 /**
  * Lista pública de membros — Tarefa 3.2
@@ -16,7 +16,7 @@ class ListaMembrosController
 {
     public function index(): void
     {
-        $todos = array_values(MembroExemploService::todos());
+        $todos = array_values(MembroService::todos());
 
         // Pódio: top 3 por leituras. Mostra sempre 3, mesmo que ainda não
         // haja pontuações (enquanto os dados de atividade não vierem do KwiZ/BD).
