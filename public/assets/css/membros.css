@@ -209,7 +209,7 @@ button{ font-family:inherit; cursor:pointer; }
 }
 .rank-row{
   display:grid;
-  grid-template-columns: 50px 1fr 70px;
+  grid-template-columns: 130px 1fr 120px;
   align-items:center;
   gap:12px;
   padding: 16px 20px;
@@ -277,4 +277,115 @@ button{ font-family:inherit; cursor:pointer; }
 
 @media (min-width:680px){
   .league-cta{ flex-direction:row; align-items:center; justify-content:space-between; }
+}
+
+/* Coluna de estado na lista de membros */
+.rank-estado {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ===================================================
+   PERFIL DO MEMBRO (card público, aberto pelo QR)
+   Usa as mesmas variáveis do resto do site.
+   =================================================== */
+.clas-card {
+  background: var(--clr-paper, #fff);
+  border: 1px solid var(--clr-border, #E5DED2);
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 720px;
+  margin: 40px auto;
+  box-shadow: 0 8px 32px rgba(26, 16, 8, 0.08);
+}
+
+.clas-card-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--clr-sunken, #F0EBE2);
+  color: var(--clr-primary, #1B4F8C);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+.clas-card-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--clr-ink-dark, #1a1008);
+  margin: 0 0 6px;
+}
+
+.clas-card-meta {
+  font-family: 'Manrope', sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: 14px;
+  color: var(--clr-muted, #7a6452);
+  margin-bottom: 14px;
+}
+
+.clas-card-objetivo {
+  background: var(--clr-sunken, #F0EBE2);
+  border-left: 3px solid var(--clr-primary, #1B4F8C);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-style: italic;
+  color: var(--clr-ink, #2d1f0e);
+  margin: 20px 0 32px;
+}
+
+.clas-section-label {
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--clr-muted, #7a6452);
+  margin: 32px 0 14px;
+}
+
+.clas-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.clas-stat-box {
+  background: var(--clr-sunken, #F0EBE2);
+  border-radius: 14px;
+  padding: 20px 14px;
+  text-align: center;
+}
+
+.clas-stat-num {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-variant-numeric: lining-nums tabular-nums;
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--clr-ink-dark, #1a1008);
+  line-height: 1.2;
+}
+
+.clas-stat-label {
+  display: block;
+  font-family: 'Manrope', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--clr-muted, #7a6452);
+  margin-top: 4px;
+}
+
+@media (max-width: 600px) {
+  .clas-card { padding: 24px; margin: 20px 16px; }
+  .clas-card-name { font-size: 24px; }
+  .clas-stat-grid { grid-template-columns: 1fr; }
 }

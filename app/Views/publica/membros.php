@@ -58,9 +58,9 @@
     <!-- Tabela de ranking (restantes membros) -->
     <div class="ranking-table">
       <div class="rank-row head">
-        <div>ID</div>
+        <div>Nº de processo</div>
         <div>Membro</div>
-        <div>Pontos</div>
+        <div>Estado</div>
       </div>
 
       <div id="membrosGrid">
@@ -71,7 +71,11 @@
               <div class="rank-avatar"></div>
               <span><?= $m['nome_passe'] ?></span>
             </div>
-            <div class="rank-pts"><?= $m['leituras'] ?></div>
+            <div class="rank-estado">
+              <span class="clas-badge clas-badge-<?= $m['estado'] ?>">
+                <span class="clas-badge-dot"></span><?= str_replace('_', ' ', $m['estado']) ?>
+              </span>
+            </div>
           </a>
         <?php endforeach; ?>
       </div>
