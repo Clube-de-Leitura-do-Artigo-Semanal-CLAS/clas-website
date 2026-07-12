@@ -1,91 +1,101 @@
 <?php $title = 'Membros — CLAS'; ?>
 <?php ob_start(); ?>
 
-<section style="padding: 3rem 1rem; min-height: 100vh; background: var(--clr-paper);">
-  <div class="container" style="max-width: 900px;">
+<link rel="stylesheet" href="/assets/css/membros.css">
 
-    <!-- Header + pesquisa -->
-    <div style="display: flex; flex-direction: column; gap: 1.25rem; margin-bottom: 2.5rem;">
-      <h1 style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: 2rem; color: var(--clr-dark); margin: 0;">
-        Membros do Clube
-      </h1>
-      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center;">
-        <div style="position: relative; flex: 1; min-width: 200px; max-width: 400px;">
-          <i class="bi bi-search" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--clr-muted); font-size: 0.9rem;"></i>
-          <input
-            id="searchMembro"
-            type="text"
-            placeholder="Pesquisar por nome ou ID..."
-            oninput="filtrarMembros(this.value)"
-            style="width: 100%; height: 46px; border: 1.5px solid var(--clr-border); border-radius: var(--radius-md); padding: 0 16px 0 40px; font-size: 0.85rem; font-family: 'Manrope', sans-serif; outline: none; color: var(--clr-text); background: var(--clr-white); transition: border-color 0.2s;"
-            onfocus="this.style.borderColor='var(--clr-accent)'"
-            onblur="this.style.borderColor='var(--clr-border)'"
-          />
-        </div>
-        <select id="ordenarMembros" onchange="ordenarMembros(this.value)" style="height: 46px; border: 1.5px solid var(--clr-border); border-radius: var(--radius-md); padding: 0 14px; font-size: 0.8rem; font-family: 'Manrope', sans-serif; outline: none; color: var(--clr-text); background: var(--clr-white); cursor: pointer;">
-          <option value="padrao">Por ranking</option>
-          <option value="alfa">Alfabético A-Z</option>
-          <option value="id">Nº crescente</option>
-        </select>
-      </div>
+<section class="section section-bg" style="padding-top: 60px; background-size: cover; background-position: center; background-repeat: no-repeat;">
+  <div class="container">
+
+    <!-- Header -->
+    <div class="section-header" style="margin-bottom: 100px;">
+      <div class="eyebrow">Liga CLAS</div>
+      <h1>Pódio da semana</h1>
+      <p>Ranking semanal baseado nos pontos dos quizzes e participação da nossa comunidade literária.</p>
     </div>
 
-    <!-- Top 3 -->
-    <div style="margin-bottom: 2.5rem;">
-      <div class="clas-section-label">Melhores leitores</div>
-      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
-        <?php
-        $coresTop = [
-          ['fundo' => '#FFE8A3', 'borda' => '#F2B24C', 'icone' => '#B87A00'],
-          ['fundo' => '#E8E8E8', 'borda' => '#B0B0B0', 'icone' => '#707070'],
-          ['fundo' => '#F0DCC8', 'borda' => '#CD7F32', 'icone' => '#8B5A2B'],
-        ];
-        foreach ($top3 as $i => $m):
-          $c = $coresTop[$i];
-        ?>
-          <a href="/membro/<?= $m['processo'] ?>" style="text-decoration: none; display: block;">
-            <div style="background: <?= $c['fundo'] ?>; border-radius: var(--radius-md); border: 2px solid <?= $c['borda'] ?>; padding: 1.5rem 1.25rem; text-align: center; transition: transform 0.2s;">
-              <div style="width: 52px; height: 52px; border-radius: 50%; background: <?= $c['icone'] ?>20; color: <?= $c['icone'] ?>; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
-                <i class="bi bi-trophy-fill" style="font-size: 1.3rem;"></i>
-              </div>
-              <div style="font-size: 0.9rem; font-weight: 700; color: var(--clr-dark); font-family: 'Manrope', sans-serif;"><?= $m['nome'] ?></div>
-              <div style="font-size: 0.65rem; color: var(--clr-muted); margin-bottom: 10px;"><?= $m['processo'] ?></div>
-              <div style="display: flex; align-items: baseline; justify-content: center; gap: 4px;">
-                <span style="font-size: 1.5rem; font-weight: 800; color: var(--clr-accent);"><?= $m['leituras'] ?></span>
-                <span style="font-size: 0.6rem; color: var(--clr-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">leituras</span>
-              </div>
-              <div style="font-size: 0.65rem; color: var(--clr-muted); margin-top: 8px; font-style: italic;">
-                <?= $m['ultimo'] ?? '—' ?>
-              </div>
+    <!-- Pódio (top 3) -->
+    <div class="podium" style="padding-top: 60px">
+      <?php
+        // Reordena para o layout visual: 2º, 1º (líder ao centro), 3º
+        $ranksPodio = [2, 1, 3];
+        $ordemPodio = [$top3[1] ?? null, $top3[0] ?? null, $top3[2] ?? null];
+        foreach ($ordemPodio as $i => $m):
+          if (!$m) continue;
+          $rank = $ranksPodio[$i];
+          $isLeader = $rank === 1;
+      ?>
+        <a href="/membro/<?= $m['processo'] ?>" class="podium-card<?= $isLeader ? ' leader' : '' ?>">
+          <?php if ($isLeader): ?>
+            <div class="podium-trophy"><i class="bi bi-trophy-fill"></i></div>
+          <?php endif; ?>
+          <div class="podium-avatar"></div>
+          <div class="podium-rank"><?= $isLeader ? '#1 LÍDER' : '#' . $rank ?></div>
+          <div class="podium-name"><?= $m['nome'] ?></div>
+          <div class="podium-pts"><?= $m['leituras'] ?><span>PTS</span></div>
+        </a>
+      <?php endforeach; ?>
+    </div>
+
+    <!-- Pesquisa e ordenação (funcionalidade mantida, não está no Figma mas era tua) -->
+    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center; max-width:920px; margin:0 auto 20px;">
+      <div style="position:relative; flex:1; min-width:200px; max-width:400px;">
+        <i class="bi bi-search" style="position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--clr-muted); font-size:.9rem;"></i>
+        <input
+          id="searchMembro"
+          type="text"
+          placeholder="Pesquisar por nome ou ID..."
+          oninput="filtrarMembros(this.value)"
+          style="width:100%; height:46px; border:1.5px solid var(--clr-border); border-radius:var(--radius-md); padding:0 16px 0 40px; font-size:.85rem; font-family:'Manrope',sans-serif; outline:none; color:var(--clr-ink); background:var(--surface-card);"
+        />
+      </div>
+      <select id="ordenarMembros" onchange="ordenarMembros(this.value)" style="height:46px; border:1.5px solid var(--clr-border); border-radius:var(--radius-md); padding:0 14px; font-size:.8rem; font-family:'Manrope',sans-serif; outline:none; color:var(--clr-ink); background:var(--surface-card); cursor:pointer;">
+        <option value="padrao">Por ranking</option>
+        <option value="alfa">Alfabético A-Z</option>
+        <option value="id">Nº crescente</option>
+      </select>
+    </div>
+
+    <!-- Tabela de ranking (restantes membros) -->
+    <div class="ranking-table">
+      <div class="rank-row head">
+        <div>Rank</div>
+        <div>Membro</div>
+        <div>Pontos</div>
+      </div>
+
+      <div id="membrosGrid">
+        <?php $rank = count($top3) + 1; ?>
+        <?php foreach ($membros as $m): ?>
+          <a href="/membro/<?= $m['processo'] ?>" class="rank-row member-row" data-nome="<?= strtolower($m['nome']) ?>" data-id="<?= strtolower($m['processo']) ?>">
+            <div class="rank-num"><?= str_pad($rank, 2, '0', STR_PAD_LEFT) ?></div>
+            <div class="rank-member">
+              <div class="rank-avatar"></div>
+              <span><?= $m['nome'] ?></span>
             </div>
+            <div class="rank-pts"><?= $m['leituras'] ?></div>
           </a>
+          <?php $rank++; ?>
         <?php endforeach; ?>
       </div>
     </div>
 
-    <!-- Todos os membros -->
-    <div class="clas-section-label">Todos os membros</div>
-    <div id="membrosGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem;">
-
-      <?php foreach ($membros as $m): ?>
-        <a href="/membro/<?= $m['processo'] ?>" class="membro-card" data-nome="<?= strtolower($m['nome']) ?>" data-id="<?= strtolower($m['processo']) ?>" style="text-decoration: none; display: block;">
-          <div style="background: var(--clr-white); border-radius: var(--radius-md); box-shadow: 0 2px 8px rgba(26,16,8,0.06); padding: 1rem 1.15rem; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s, transform 0.2s;">
-            <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--clr-accent-subtle); color: var(--clr-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <i class="bi bi-person-fill" style="font-size: 1.1rem;"></i>
-            </div>
-            <div style="flex: 1; min-width: 0;">
-              <div style="font-size: 0.9rem; font-weight: 600; color: var(--clr-text); font-family: 'Manrope', sans-serif;"><?= $m['nome'] ?></div>
-              <div style="font-size: 0.7rem; color: var(--clr-muted); margin-top: 2px;"><?= $m['processo'] ?></div>
-            </div>
-            <i class="bi bi-chevron-right" style="color: var(--clr-muted-light); font-size: 0.8rem;"></i>
-          </div>
-        </a>
-      <?php endforeach; ?>
-
+    <div id="membroEmpty" style="display:none; text-align:center; padding:2rem 1rem;">
+      <p style="font-size:1rem; color:var(--clr-muted);">Nenhum membro encontrado.</p>
     </div>
 
-    <div id="membroEmpty" style="display: none; text-align: center; padding: 3rem 1rem;">
-      <p style="font-size: 1rem; color: var(--clr-muted); font-family: 'Manrope', sans-serif;">Nenhum membro encontrado.</p>
+    <div style="text-align:center; margin: 24px 0 32px;">
+      <button id="verMaisBtn" onclick="verMais()" class="btn btn-primary" type="button" style="padding: 12px 32px; font-size: 14px;">
+        Ver mais
+      </button>
+    </div>
+
+    <!-- CTA -->
+    <div class="league-cta" style="margin-top:32px;">
+      <div>
+        <h3>Quer ver o seu nome aqui?</h3>
+        <p>Junte-se à competição semanal e ganhe destaque na comunidade.</p>
+      </div>
+      <a href="/inscricao" class="btn">Inscrever-se para competir</a>
     </div>
 
   </div>
@@ -114,31 +124,62 @@ function pontuacao(texto, termo) {
   return (dist / Math.max(q.length, t.length)) * 30;
 }
 
+const LIMITE_INICIAL = 10;
+let membrosVisiveis = LIMITE_INICIAL;
+
+function aplicarPaginacao() {
+  const linhas = Array.from(document.querySelectorAll('#membrosGrid .member-row'));
+  const btn = document.getElementById('verMaisBtn');
+
+  linhas.forEach((linha, i) => {
+    linha.style.display = i < membrosVisiveis ? '' : 'none';
+  });
+
+  btn.style.display = membrosVisiveis < linhas.length ? 'inline-flex' : 'none';
+  document.getElementById('membroEmpty').style.display = 'none';
+}
+
+function verMais() {
+  membrosVisiveis += LIMITE_INICIAL;
+  aplicarPaginacao();
+}
+
 function filtrarMembros(valor) {
   const termo = removerAcentos(valor.toLowerCase().trim());
-  const cards = document.querySelectorAll('.membro-card');
+  const btn = document.getElementById('verMaisBtn');
+
+  // Campo vazio: volta ao modo paginado normal
+  if (!termo) {
+    membrosVisiveis = LIMITE_INICIAL;
+    aplicarPaginacao();
+    return;
+  }
+
+  // Com pesquisa ativa, mostra todos os resultados sem paginação
+  btn.style.display = 'none';
+
+  const linhas = document.querySelectorAll('.member-row');
   const grid = document.getElementById('membrosGrid');
   let apareceu = false;
 
   const comPontos = [];
 
-  cards.forEach(c => {
+  linhas.forEach(c => {
     const nome = c.getAttribute('data-nome');
     const id = c.getAttribute('data-id');
     const p = Math.max(pontuacao(nome, termo), pontuacao(id, termo));
     if (p > 0) {
-      c.style.display = 'block';
-      c.style.order = Math.round(100 - p);
+      c.style.display = '';
       apareceu = true;
-      comPontos.push({ card: c, pontos: p });
+      comPontos.push({ linha: c, pontos: p });
     } else {
       c.style.display = 'none';
     }
   });
 
-  if (comPontos.length > 0 && termo.length > 0) {
+  if (comPontos.length > 0) {
     comPontos.sort((a, b) => b.pontos - a.pontos);
-    comPontos.forEach(item => grid.appendChild(item.card));
+    comPontos.forEach(item => grid.appendChild(item.linha));
   }
 
   document.getElementById('membroEmpty').style.display = apareceu ? 'none' : 'block';
@@ -146,9 +187,9 @@ function filtrarMembros(valor) {
 
 function ordenarMembros(criterio) {
   const grid = document.getElementById('membrosGrid');
-  const cards = Array.from(grid.querySelectorAll('.membro-card'));
+  const linhas = Array.from(grid.querySelectorAll('.member-row'));
 
-  cards.sort((a, b) => {
+  linhas.sort((a, b) => {
     const nomeA = a.getAttribute('data-nome');
     const nomeB = b.getAttribute('data-nome');
     const idA = parseInt(a.getAttribute('data-id').replace('clas', ''));
@@ -159,29 +200,14 @@ function ordenarMembros(criterio) {
     return 0;
   });
 
-  cards.forEach(c => {
-    c.style.order = '';
-    grid.appendChild(c);
-  });
+  linhas.forEach(c => grid.appendChild(c));
+
+  // Reaplica o estado atual (pesquisa ou paginação) depois de reordenar
+  filtrarMembros(document.getElementById('searchMembro').value);
 }
 
-function ordenarMembros(criterio) {
-  const grid = document.getElementById('membrosGrid');
-  const cards = Array.from(grid.querySelectorAll('.membro-card'));
-
-  cards.sort((a, b) => {
-    const nomeA = a.getAttribute('data-nome');
-    const nomeB = b.getAttribute('data-nome');
-    const idA = parseInt(a.getAttribute('data-id').replace('clas', ''));
-    const idB = parseInt(b.getAttribute('data-id').replace('clas', ''));
-
-    if (criterio === 'alfa') return nomeA.localeCompare(nomeB);
-    if (criterio === 'id') return idA - idB;
-    return 0;
-  });
-
-  cards.forEach(c => grid.appendChild(c));
-}
+// Estado inicial da página: só mostra o primeiro lote
+aplicarPaginacao();
 </script>
 
 <?php $content = ob_get_clean(); ?>
