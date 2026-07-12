@@ -117,7 +117,7 @@ class MembroExemploService
                 'numero_processo' => $id !== '' ? $id : 'CLAS' . str_pad((string)$i, 4, '0', STR_PAD_LEFT),
                 'nome_passe'      => self::nomePasse($nome),
                 'iniciais'        => self::iniciais($nome),
-                'estado'          => 'ativo',
+                'estado'          => 'inativo',
                 'leituras'        => 0,
                 'debates'         => 0,
                 'eventos'         => 0,

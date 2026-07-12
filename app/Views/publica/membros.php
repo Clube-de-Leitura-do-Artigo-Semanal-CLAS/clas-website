@@ -63,22 +63,11 @@
         <div>Estado</div>
       </div>
 
-      <div id="membrosGrid">
-        <?php foreach ($membros as $m): ?>
-          <a href="/membro/<?= $m['numero_processo'] ?>" class="rank-row member-row" data-nome="<?= strtolower($m['nome_passe']) ?>" data-id="<?= strtolower($m['numero_processo']) ?>">
-            <div class="rank-num"><?= $m['numero_processo'] ?></div>
-            <div class="rank-member">
-              <div class="rank-avatar"></div>
-              <span><?= $m['nome_passe'] ?></span>
-            </div>
-            <div class="rank-estado">
-              <span class="clas-badge clas-badge-<?= $m['estado'] ?>">
-                <span class="clas-badge-dot"></span><?= str_replace('_', ' ', $m['estado']) ?>
-              </span>
-            </div>
-          </a>
-        <?php endforeach; ?>
-      </div>
+      <!-- As linhas sao construidas pelo JS a partir do JSON abaixo.
+           Assim o browser so renderiza as visiveis (10 de cada vez) em vez
+           das ~490 de uma vez, mas a pesquisa e a ordenacao continuam a
+           funcionar sobre a lista toda. -->
+      <div id="membrosGrid"></div>
     </div>
 
     <div id="membroEmpty" style="display:none; text-align:center; padding:2rem 1rem;">
@@ -103,6 +92,15 @@
   </div>
 </section>
 
+
+<script>
+// Dados de todos os membros (leve: so os campos que a lista precisa)
+const MEMBROS = <?= json_encode(array_map(fn($m) => [
+  'p' => $m['numero_processo'],
+  'n' => $m['nome_passe'],
+  'e' => $m['estado'],
+], $membros), JSON_UNESCAPED_UNICODE) ?>;
+</script>
 <script>
 function removerAcentos(str) {
   return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -126,94 +124,81 @@ function pontuacao(texto, termo) {
   return (dist / Math.max(q.length, t.length)) * 30;
 }
 
-const LIMITE_INICIAL = 10;
-let membrosVisiveis = LIMITE_INICIAL;
+const LIMITE = 10;
+let visiveis = LIMITE;
+let listaAtual = MEMBROS.slice();   // lista corrente (apos pesquisa/ordenacao)
 
-function aplicarPaginacao() {
-  const linhas = Array.from(document.querySelectorAll('#membrosGrid .member-row'));
-  const btn = document.getElementById('verMaisBtn');
+const grid  = document.getElementById('membrosGrid');
+const btn   = document.getElementById('verMaisBtn');
+const vazio = document.getElementById('membroEmpty');
 
-  linhas.forEach((linha, i) => {
-    linha.style.display = i < membrosVisiveis ? '' : 'none';
-  });
+function semAcentos(s) {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
 
-  btn.style.display = membrosVisiveis < linhas.length ? 'inline-flex' : 'none';
-  document.getElementById('membroEmpty').style.display = 'none';
+// Constroi o HTML de uma linha
+function linhaHTML(m) {
+  const estadoLegivel = m.e.replace(/_/g, ' ');
+  return `
+    <a href="/membro/${m.p}" class="rank-row member-row">
+      <div class="rank-num">${m.p}</div>
+      <div class="rank-member">
+        <div class="rank-avatar"></div>
+        <span>${m.n}</span>
+      </div>
+      <div class="rank-estado">
+        <span class="clas-badge clas-badge-${m.e}">
+          <span class="clas-badge-dot"></span>${estadoLegivel}
+        </span>
+      </div>
+    </a>`;
+}
+
+// Desenha apenas as linhas visiveis (nao as ~490 todas)
+function render() {
+  const aMostrar = listaAtual.slice(0, visiveis);
+  grid.innerHTML = aMostrar.map(linhaHTML).join('');
+
+  vazio.style.display = listaAtual.length === 0 ? 'block' : 'none';
+  btn.style.display   = visiveis < listaAtual.length ? 'inline-flex' : 'none';
 }
 
 function verMais() {
-  membrosVisiveis += LIMITE_INICIAL;
-  aplicarPaginacao();
+  visiveis += LIMITE;
+  render();
 }
 
 function filtrarMembros(valor) {
-  const termo = removerAcentos(valor.toLowerCase().trim());
-  const btn = document.getElementById('verMaisBtn');
+  const termo = semAcentos(valor.toLowerCase().trim());
+  visiveis = LIMITE;
 
-  // Campo vazio: volta ao modo paginado normal
   if (!termo) {
-    membrosVisiveis = LIMITE_INICIAL;
-    aplicarPaginacao();
-    return;
+    listaAtual = MEMBROS.slice();
+  } else {
+    listaAtual = MEMBROS.filter(m =>
+      semAcentos(m.n.toLowerCase()).includes(termo) ||
+      m.p.toLowerCase().includes(termo)
+    );
   }
-
-  // Com pesquisa ativa, mostra todos os resultados sem paginação
-  btn.style.display = 'none';
-
-  const linhas = document.querySelectorAll('.member-row');
-  const grid = document.getElementById('membrosGrid');
-  let apareceu = false;
-
-  const comPontos = [];
-
-  linhas.forEach(c => {
-    const nome = c.getAttribute('data-nome');
-    const id = c.getAttribute('data-id');
-    const p = Math.max(pontuacao(nome, termo), pontuacao(id, termo));
-    if (p > 0) {
-      c.style.display = '';
-      apareceu = true;
-      comPontos.push({ linha: c, pontos: p });
-    } else {
-      c.style.display = 'none';
-    }
-  });
-
-  if (comPontos.length > 0) {
-    comPontos.sort((a, b) => b.pontos - a.pontos);
-    comPontos.forEach(item => grid.appendChild(item.linha));
-  }
-
-  document.getElementById('membroEmpty').style.display = apareceu ? 'none' : 'block';
+  render();
 }
 
 function ordenarMembros(criterio) {
-  const grid = document.getElementById('membrosGrid');
-  const linhas = Array.from(grid.querySelectorAll('.member-row'));
+  const limpar = s => s.replace(/[.,'`\u00b4]/g, '').trim();
 
-  linhas.sort((a, b) => {
-    const nomeA = a.getAttribute('data-nome');
-    const nomeB = b.getAttribute('data-nome');
-    const idA = parseInt(a.getAttribute('data-id').replace('clas', ''));
-    const idB = parseInt(b.getAttribute('data-id').replace('clas', ''));
-
-    if (criterio === 'alfa') {
-      // Ignora pontuação (ex: "P. Bosco" ordena como "P Bosco") e acentos
-      const limpar = s => s.replace(/[.,'`´]/g, '').trim();
-      return limpar(nomeA).localeCompare(limpar(nomeB), 'pt', { sensitivity: 'base' });
-    }
-    if (criterio === 'id') return idA - idB;
-    return 0;
-  });
-
-  linhas.forEach(c => grid.appendChild(c));
-
-  // Reaplica o estado atual (pesquisa ou paginação) depois de reordenar
-  filtrarMembros(document.getElementById('searchMembro').value);
+  if (criterio === 'alfa') {
+    listaAtual.sort((a, b) =>
+      limpar(a.n).localeCompare(limpar(b.n), 'pt', { sensitivity: 'base' })
+    );
+  } else if (criterio === 'id') {
+    listaAtual.sort((a, b) => a.p.localeCompare(b.p, 'pt', { numeric: true }));
+  }
+  visiveis = LIMITE;
+  render();
 }
 
-// Estado inicial da página: só mostra o primeiro lote
-aplicarPaginacao();
+// Arranque: ordenado por numero de processo
+document.addEventListener('DOMContentLoaded', () => ordenarMembros('id'));
 </script>
 
 <?php $content = ob_get_clean(); ?>
