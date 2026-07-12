@@ -44,13 +44,13 @@
         foreach ($top3 as $i => $m):
           $c = $coresTop[$i];
         ?>
-          <a href="/membro/<?= $m['processo'] ?>" style="text-decoration: none; display: block;">
+          <a href="/membro/<?= $m['numero_processo'] ?>" style="text-decoration: none; display: block;">
             <div style="background: <?= $c['fundo'] ?>; border-radius: var(--radius-md); border: 2px solid <?= $c['borda'] ?>; padding: 1.5rem 1.25rem; text-align: center; transition: transform 0.2s;">
               <div style="width: 52px; height: 52px; border-radius: 50%; background: <?= $c['icone'] ?>20; color: <?= $c['icone'] ?>; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px;">
                 <i class="bi bi-trophy-fill" style="font-size: 1.3rem;"></i>
               </div>
-              <div style="font-size: 0.9rem; font-weight: 700; color: var(--clr-dark); font-family: 'Manrope', sans-serif;"><?= $m['nome'] ?></div>
-              <div style="font-size: 0.65rem; color: var(--clr-muted); margin-bottom: 10px;"><?= $m['processo'] ?></div>
+              <div style="font-size: 0.9rem; font-weight: 700; color: var(--clr-dark); font-family: 'Manrope', sans-serif;"><?= $m['nome_passe'] ?></div>
+              <div style="font-size: 0.65rem; color: var(--clr-muted); margin-bottom: 10px;"><?= $m['numero_processo'] ?></div>
               <div style="display: flex; align-items: baseline; justify-content: center; gap: 4px;">
                 <span style="font-size: 1.5rem; font-weight: 800; color: var(--clr-accent);"><?= $m['leituras'] ?></span>
                 <span style="font-size: 0.6rem; color: var(--clr-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700;">leituras</span>
@@ -69,14 +69,14 @@
     <div id="membrosGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 0.75rem;">
 
       <?php foreach ($membros as $m): ?>
-        <a href="/membro/<?= $m['processo'] ?>" class="membro-card" data-nome="<?= strtolower($m['nome']) ?>" data-id="<?= strtolower($m['processo']) ?>" style="text-decoration: none; display: block;">
+        <a href="/membro/<?= $m['numero_processo'] ?>" class="membro-card" data-nome="<?= strtolower($m['nome_passe']) ?>" data-id="<?= strtolower($m['numero_processo']) ?>" style="text-decoration: none; display: block;">
           <div style="background: var(--clr-white); border-radius: var(--radius-md); box-shadow: 0 2px 8px rgba(26,16,8,0.06); padding: 1rem 1.15rem; display: flex; align-items: center; gap: 14px; transition: box-shadow 0.2s, transform 0.2s;">
             <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--clr-accent-subtle); color: var(--clr-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
               <i class="bi bi-person-fill" style="font-size: 1.1rem;"></i>
             </div>
             <div style="flex: 1; min-width: 0;">
-              <div style="font-size: 0.9rem; font-weight: 600; color: var(--clr-text); font-family: 'Manrope', sans-serif;"><?= $m['nome'] ?></div>
-              <div style="font-size: 0.7rem; color: var(--clr-muted); margin-top: 2px;"><?= $m['processo'] ?></div>
+              <div style="font-size: 0.9rem; font-weight: 600; color: var(--clr-text); font-family: 'Manrope', sans-serif;"><?= $m['nome_passe'] ?></div>
+              <div style="font-size: 0.7rem; color: var(--clr-muted); margin-top: 2px;"><?= $m['numero_processo'] ?></div>
             </div>
             <i class="bi bi-chevron-right" style="color: var(--clr-muted-light); font-size: 0.8rem;"></i>
           </div>

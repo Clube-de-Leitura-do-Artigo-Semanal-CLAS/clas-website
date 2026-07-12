@@ -73,8 +73,8 @@ $membro = $membro ?? [
         <div style="display: flex; gap: 14px; align-items: center;">
           <div class="clas-card-avatar"><?= $membro['iniciais'] ?></div>
           <div>
-            <div class="clas-card-name"><?= $membro['nome'] ?></div>
-            <div class="clas-card-meta">Nº <b><?= $membro['processo'] ?></b> · desde <?= $membro['membro_desde'] ?></div>
+            <div class="clas-card-name"><?= $membro['nome_passe'] ?></div>
+            <div class="clas-card-meta">Nº <b><?= $membro['numero_processo'] ?></b> · desde <?= $membro['membro_desde'] ?></div>
             <div class="clas-badge clas-badge-<?= $membro['estado'] ?>" style="margin-top: 6px;">
               <span class="clas-badge-dot"></span><?= ucfirst($membro['estado']) ?>
             </div>
@@ -115,7 +115,7 @@ $membro = $membro ?? [
             <div style="width: 40px; height: 40px; border-radius: 50%; background: <?= $t['cor'] ?>20; display: flex; align-items: center; justify-content: center;">
               <i class="<?= $t['icone'] ?>" style="font-size: 1.2rem; color: <?= $t['cor'] ?>;"></i>
             </div>
-            <span style="font-size: 0.65rem; font-weight: 700; color: var(--clr-text); text-align: center; font-family: 'Manrope', sans-serif;"><?= $t['nome'] ?></span>
+            <span style="font-size: 0.65rem; font-weight: 700; color: var(--clr-text); text-align: center; font-family: 'Manrope', sans-serif;"><?= $t['nome_passe'] ?></span>
           </div>
         <?php endforeach; ?>
       </div>
@@ -134,7 +134,7 @@ $membro = $membro ?? [
             </div>
             <div>
               <div style="font-size: 0.8rem; font-weight: 600; color: var(--clr-text);">
-                <?= $h['nome'] ?>
+                <?= $h['nome_passe'] ?>
                 <?= $h['autor'] ? "<span style=\"font-weight: 400; color: var(--clr-muted);\">— {$h['autor']}</span>" : '' ?>
               </div>
               <div style="font-size: 0.65rem; color: var(--clr-muted);"><?= $h['meta'] ?></div>
@@ -163,7 +163,7 @@ $membro = $membro ?? [
             <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px 0;">
               <div class="clas-card-avatar" style="width: 40px; height: 40px; font-size: 0.8rem;"><?= $membro['iniciais'] ?></div>
               <div style="flex: 1;">
-                <div style="font-size: 0.85rem; font-weight: 700; color: var(--clr-dark);"><?= $membro['nome'] ?></div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--clr-dark);"><?= $membro['nome_passe'] ?></div>
                 <div style="font-size: 0.65rem; color: var(--clr-muted);">
                   Resenha de "<?= htmlspecialchars($r->livro) ?>"<?= $r->autor ? ' — ' . htmlspecialchars($r->autor) : '' ?> · <?= date('d/m/Y', strtotime($r->criadaEm)) ?>
                 </div>
@@ -185,7 +185,7 @@ $membro = $membro ?? [
             <div style="display: flex; align-items: center; gap: 10px; padding: 14px 16px 0;">
               <div class="clas-card-avatar" style="width: 40px; height: 40px; font-size: 0.8rem;"><?= $membro['iniciais'] ?></div>
               <div style="flex: 1;">
-                <div style="font-size: 0.85rem; font-weight: 700; color: var(--clr-dark);"><?= $membro['nome'] ?></div>
+                <div style="font-size: 0.85rem; font-weight: 700; color: var(--clr-dark);"><?= $membro['nome_passe'] ?></div>
                 <div style="font-size: 0.65rem; color: var(--clr-muted);">
                   Resenha de "<?= $r['livro'] ?>" · <?= $r['data'] ?>
                 </div>

@@ -20,7 +20,6 @@ return [
     ['POST', '/ativar/concluir', \App\Controllers\Auth\ActivationController::class, 'concluir'],
 
     ['GET', '/', \App\Controllers\Publica\HomeController::class, 'index'],
-    ['GET', '/sobre', \App\Controllers\Publica\HomeController::class, 'sobre'],
     ['GET', '/concurso-mwangole', \App\Controllers\Publica\ConcursoController::class, 'index'],
     ['GET', '/parceiros', \App\Controllers\Publica\ContactoController::class, 'parceiros'],
     ['GET', '/contacto', \App\Controllers\Publica\ContactoController::class, 'index'],
