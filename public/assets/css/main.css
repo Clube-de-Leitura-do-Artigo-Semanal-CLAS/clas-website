@@ -8,6 +8,10 @@
   --brand-subtle :#EAF2FB;
   --accent : #EE9E2C;
   --accent-hover : #dd8a17;
+  --clr-accent: #1B4F8C;
+  --clr-white: #ffffff;
+  --clr-dark: #1a1008;
+  --clr-text: #2d1f0e;
   --accent-subtle : #FDF3E1;
   --ativo : #2F6B3B;
   --em-risco : #C97A24;
@@ -710,6 +714,63 @@ img{ max-width:100%; display:block; }
   color: var(--clr-ink-dark);
   background: var(--accent);
   border-color: var(--accent);
+
+
+/* ===== Estilos de Eventos (movidos de eventos.css) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --clas: #e1b507;
+  --brand-primary : #1B4F8C;
+  --brand-hover : #153D6C;
+  --brand-active : #0F2C4E;
+  --brand-subtle :#EAF2FB;
+  --accent : #EE9E2C;
+  --accent-hover : #dd8a17;
+  --clr-accent: #1B4F8C;
+  --clr-white: #ffffff;
+  --clr-dark: #1a1008;
+  --clr-text: #2d1f0e;
+  --accent-subtle : #FDF3E1;
+  --ativo : #2F6B3B;
+  --em-risco : #C97A24;
+  --inativo : #B24B24;
+  --fantasma: #8A7C6C;
+  --danger : #A3283A;
+  --surface-page : #FAF6F0;
+  --surface-card : #FFFFFF;
+  --surface-sunken : #F0EBE2;
+  --surface-inverse : black;
+  --text-primary : black;
+  --text-secondary : black;
+  --text-muted : #B7AC97;
+  --border-subtle : #E5DED2;
+
+
+  --clr-paper:      #FAF6F0;
+  --clr-sunken:     #F0EBE2;
+  --clr-border:     #E5DED2;
+
+  --clr-ink:        black;
+  --clr-ink-dark:   black;
+  --clr-muted:      black;
+  --clr-faint:      #B7AC97;
+
+  --radius-sm:  8px;
+  --radius-md:  16px;
+  --radius-lg:  24px;
+  --radius-pill:99px;
+
+  --shadow-card: 0 8px 32px rgba(26,16,8,.10);
+  --shadow-nav:  0 2px 16px rgba(26,16,8,.06);
+
+  --container: 1180px;
+
+  --fan-w: clamp(58px, 21vw, 92px);
+  --fan-ratio: 1.235; /* altura/largura, igual à proporção original (200/162) */
+  --fan-step: calc(var(--fan-w) * 0.605);
+  --fan-lift: 10px;
+  --login-offset: 20px;  
 }
 
 .footer-social a:hover{
@@ -983,3 +1044,10 @@ img{ max-width:100%; display:block; }
 .clas-badge-inativo .clas-badge-dot { background: #E05050; }
 .clas-badge-adormecido { background: #EEEEEE; color: #666666; }
 .clas-badge-adormecido .clas-badge-dot { background: #999999; }
+
+.clas-badge-pendente { background: #FFF5D9; color: #92600A; }
+.clas-badge-pendente .clas-badge-dot { background: #F5B342; }
+.clas-badge-aprovada { background: #E4F5E6; color: #1B7A2B; }
+.clas-badge-aprovada .clas-badge-dot { background: #1B7A2B; }
+.clas-badge-rejeitada { background: #FFE4E4; color: #B33A3A; }
+.clas-badge-rejeitada .clas-badge-dot { background: #E05050; }
