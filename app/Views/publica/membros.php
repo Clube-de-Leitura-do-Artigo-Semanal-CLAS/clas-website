@@ -58,23 +58,21 @@
     <!-- Tabela de ranking (restantes membros) -->
     <div class="ranking-table">
       <div class="rank-row head">
-        <div>Rank</div>
+        <div>ID</div>
         <div>Membro</div>
         <div>Pontos</div>
       </div>
 
       <div id="membrosGrid">
-        <?php $rank = count($top3) + 1; ?>
         <?php foreach ($membros as $m): ?>
           <a href="/membro/<?= $m['numero_processo'] ?>" class="rank-row member-row" data-nome="<?= strtolower($m['nome_passe']) ?>" data-id="<?= strtolower($m['numero_processo']) ?>">
-            <div class="rank-num"><?= str_pad($rank, 2, '0', STR_PAD_LEFT) ?></div>
+            <div class="rank-num"><?= $m['numero_processo'] ?></div>
             <div class="rank-member">
               <div class="rank-avatar"></div>
               <span><?= $m['nome_passe'] ?></span>
             </div>
             <div class="rank-pts"><?= $m['leituras'] ?></div>
           </a>
-          <?php $rank++; ?>
         <?php endforeach; ?>
       </div>
     </div>
