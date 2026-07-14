@@ -20,4 +20,9 @@ return [
     ['POST', '/admin/membros/role', \App\Controllers\Admin\MembrosController::class, 'updateRole', ['admin']],
     ['POST', '/admin/roles', \App\Controllers\Admin\RolesController::class, 'atribuir', ['admin']],
     ['GET',  '/admin/estatisticas', \App\Controllers\Admin\EstatisticasController::class, 'index', ['admin']],
+
+    // Resenhas — moderação (admin ou moderador)
+    ['GET',  '/admin/resenhas', \App\Controllers\Admin\ResenhasController::class, 'pendentes', ['admin']],
+    ['GET',  '/admin/resenhas/{id}/moderar', \App\Controllers\Admin\ResenhasController::class, 'moderar', ['admin']],
+    ['POST', '/admin/resenhas/{id}/moderar', \App\Controllers\Admin\ResenhasController::class, 'salvarModeracao', ['admin']],
 ];

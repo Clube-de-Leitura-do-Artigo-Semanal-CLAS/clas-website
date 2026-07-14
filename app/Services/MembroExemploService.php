@@ -3,14 +3,18 @@
 namespace App\Services;
 
 /**
- * Fornece os dados dos membros a partir de docs/membros.json.
+ * Fornece os dados dos membros para a camada pública.
  *
- * AUTO-GERAÇÃO: se o membros.json não existir mas houver um
- * docs/CLASID.xlsx, o JSON é gerado automaticamente na primeira
- * vez que a página abre — não é preciso correr nenhum script à mão.
+ * PROVISÓRIO: por agora lê de docs/membros.json (gerado do CLASID.xlsx).
+ * Quando a tabela `membros` do Supabase estiver populada, trocar apenas o
+ * método todos() para consultar a BD — o resto do código não muda, porque
+ * já usa os mesmos nomes de campos da tabela (nome_passe, numero_processo,
+ * estado, leituras...).
  *
- * PRIVACIDADE: nem o CLASID.xlsx nem o membros.json sobem para o
- * GitHub (estão no .gitignore). Cada máquina gera o seu localmente.
+ * VER TAREFA: "Migrar lista de membros do JSON para a base de dados".
+ *
+ * PRIVACIDADE: a view pública mostra apenas o `nome_passe` (nome curto de
+ * exibição), nunca o nome completo do membro.
  */
 class MembroExemploService
 {
@@ -26,6 +30,19 @@ class MembroExemploService
         return __DIR__ . '/../../docs/CLASID.xlsx';
     }
 
+    /**
+     * Devolve todos os membros.
+     *
+     * PARA MIGRAR PARA A BD: substituir o corpo deste método por algo como
+     *
+     *   $pdo = Database::getInstance();
+     *   $stmt = $pdo->query("SELECT numero_processo, nome_passe, estado,
+     *                               leituras, debates, eventos
+     *                        FROM membros ORDER BY numero_processo");
+     *   return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+     *
+     * O resto da aplicação continua a funcionar sem alterações.
+     */
     public static function todos(): array
     {
         if (self::$cache !== null) {
@@ -34,7 +51,6 @@ class MembroExemploService
 
         $json = self::caminhoJson();
 
-        // Se o JSON não existe mas o Excel está presente, gera automaticamente.
         if (!file_exists($json) && file_exists(self::caminhoExcel())) {
             self::gerarJsonDoExcel();
         }
@@ -49,28 +65,21 @@ class MembroExemploService
         return self::$cache;
     }
 
+    /** Procura por número de processo (ex: CLAS0042). */
     public static function buscar(string $id): ?array
     {
-        $todos = self::todos();
-
-        // Procura primeiro pelo nº de processo (ex: CLAS0042) — é o que os
-        // links da lista usam. Como fallback, aceita também a chave numérica.
-        foreach ($todos as $membro) {
-            if (isset($membro['processo']) && $membro['processo'] === $id) {
+        foreach (self::todos() as $membro) {
+            if (($membro['numero_processo'] ?? null) === $id) {
                 return $membro;
             }
         }
-
-        return $todos[$id] ?? null;
+        return self::todos()[$id] ?? null;
     }
 
     /**
      * Lê docs/CLASID.xlsx e escreve docs/membros.json.
-     * Usado pela auto-geração acima e pelo script CLI
-     * scripts/gerar_membros_json.php (que chama este método).
-     *
-     * Precisa de phpoffice/phpspreadsheet. Se não estiver instalado,
-     * falha em silêncio (a lista fica vazia até se instalar/gerar).
+     * Gera o nome_passe (primeiro + último nome) a partir do nome completo:
+     * o nome completo NÃO é guardado, só o nome de exibição.
      */
     public static function gerarJsonDoExcel(): bool
     {
@@ -79,14 +88,12 @@ class MembroExemploService
             return false;
         }
         if (!class_exists(\PhpOffice\PhpSpreadsheet\IOFactory::class)) {
-            // PhpSpreadsheet não instalado — não dá para gerar.
             return false;
         }
 
         $planilha = \PhpOffice\PhpSpreadsheet\IOFactory::load($excel);
         $linhas = $planilha->getActiveSheet()->toArray(null, true, true, true);
 
-        // Descobrir colunas "ID CLAS" e "Nome completo" pela 1ª linha
         $cabecalhos = array_shift($linhas);
         $letraId = null; $letraNome = null;
         foreach ($cabecalhos as $letra => $titulo) {
@@ -104,22 +111,22 @@ class MembroExemploService
             $id   = trim((string)($linha[$letraId] ?? ''));
             $nome = trim((string)($linha[$letraNome] ?? ''));
             if ($nome === '' || mb_strtolower($nome) === 'reservado') {
-                continue; // ignora vazios e IDs reservados
+                continue;
             }
             $membros[(string)$i] = [
-                'processo'     => $id !== '' ? $id : 'CLAS' . str_pad((string)$i, 4, '0', STR_PAD_LEFT),
-                'nome'         => $nome,
-                'iniciais'     => self::iniciais($nome),
-                'estado'       => 'ativo',
-                'leituras'     => 0,
-                'debates'      => 0,
-                'eventos'      => 0,
-                'ultimo'       => '',
-                'membro_desde' => '',
-                'objetivo'     => '',
-                'trofeus'      => [],
-                'historico'    => [],
-                'resenhas'     => [],
+                'numero_processo' => $id !== '' ? $id : 'CLAS' . str_pad((string)$i, 4, '0', STR_PAD_LEFT),
+                'nome_passe'      => self::nomePasse($nome),
+                'iniciais'        => self::iniciais($nome),
+                'estado'          => 'inativo',
+                'leituras'        => 0,
+                'debates'         => 0,
+                'eventos'         => 0,
+                'ultimo'          => '',
+                'membro_desde'    => '',
+                'objetivo'        => '',
+                'trofeus'         => [],
+                'historico'       => [],
+                'resenhas'        => [],
             ];
             $i++;
         }
@@ -131,7 +138,17 @@ class MembroExemploService
         return true;
     }
 
-    /** "Ana Ferreira" -> "AF" (primeiro + último nome) */
+    /** "Romão Gando Domingos" -> "Romão Domingos" (nome de exibição público). */
+    private static function nomePasse(string $nomeCompleto): string
+    {
+        $partes = array_values(array_filter(preg_split('/\s+/', trim($nomeCompleto))));
+        if (count($partes) <= 2) {
+            return implode(' ', $partes);
+        }
+        return $partes[0] . ' ' . end($partes);
+    }
+
+    /** "Ana Ferreira" -> "AF" */
     private static function iniciais(string $nome): string
     {
         $partes = array_values(array_filter(preg_split('/\s+/', trim($nome))));

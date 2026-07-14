@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CLAS — Login</title>
-  <link rel="icon" href="/assets/img/logo_clas1.png" type="image/gif" />
+  <link rel="icon" href="/assets/img/logo_clas.png" type="image/gif" />
   <meta name="description" content="Inicia a tua sessão no CLAS." />
   <link rel="stylesheet" href="/assets/css/login.css" />
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -14,7 +14,7 @@
   <div class="login-card">
     <div class="login-left">
       <a href="/index.html">
-        <img src="/assets/img/logo_clas1.png" alt="CLAS Logo" />
+        <img src="/assets/img/logo_clas.png" alt="CLAS Logo" />
       </a>
     </div>
     

@@ -9,7 +9,7 @@ namespace App\Services;
  *   0–45 dias sem nenhuma das 3 frentes  -> ativo
  *   45–60 dias                            -> em_risco
  *   60 dias–3 meses                       -> inativo
- *   3+ meses                              -> fantasma
+ *   3+ meses                              -> adormecido
  *
  * As 3 frentes que contam: presença em debate, presença em evento,
  * participação em Kwiz (via relatório recebido do KwiZ).
@@ -28,14 +28,30 @@ class EstadoMembroService
 
     public function calcularEstado(string $ultimaAtividadeEm): string
     {
-        // TODO: calcular diferença de dias entre $ultimaAtividadeEm e hoje,
-        // devolver 'ativo' | 'em_risco' | 'inativo' | 'fantasma'
-        return 'ativo';
+        $ultima = strtotime($ultimaAtividadeEm);
+        if ($ultima === false) {
+            return 'ativo';
+        }
+
+        $dias = (int) ((time() - $ultima) / 86400);
+
+        if ($dias <= self::DIAS_ATIVO) {
+            return 'ativo';
+        }
+        if ($dias <= self::DIAS_EM_RISCO) {
+            return 'em_risco';
+        }
+        if ($dias <= self::DIAS_INATIVO) {
+            return 'inativo';
+        }
+        return 'adormecido';
     }
 
     public function reativar(int $membroId): void
     {
-        // Chamado assim que chega uma nova presença/relatório de Kwiz
-        // para este membro. Repõe o estado para 'ativo' de imediato.
+        $pdo = \App\Services\Database::getInstance();
+        $stmt = $pdo->prepare("UPDATE membros SET estado = 'ativo' WHERE id = :id AND estado != 'ativo'");
+        $stmt->bindValue(':id', $membroId, \PDO::PARAM_INT);
+        $stmt->execute();
     }
 }

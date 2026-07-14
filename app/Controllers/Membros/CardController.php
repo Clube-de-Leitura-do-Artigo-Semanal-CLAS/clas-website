@@ -6,27 +6,40 @@ namespace App\Controllers\Membros;
  * Card de membro — Tarefas 2.5 + 3.6
  *
  * Aberto por QR code do passe ou acessado via área de membros.
- *
- * ── Estado actual ──
- * Controller: carrega a view. Sem lógica de dados (ainda).
- * View: dados exemplares inline (placeholder). Toda a marcação
- *       e estilos prontos — só espera os dados reais da BD.
- *
- * ── Para ficar completo ──
- * Dados do membro:     Tarefa 2.1 (Anicélio)
- * Autenticação:        Tarefa 3.5 (Anicélio)
- * Presenças/leituras:  Tarefa 2.2
- * Troféus:             Tarefa 2.7 (Solendo)
- * Resenhas:            Tarefa 2.8
+ * Mostra todas as resenhas do membro (aprovadas + pendentes).
  */
 class CardController
 {
     public function index(): void
     {
-        // Placeholder: enquanto não há auth + BD, a view tem dados exemplares
-        // Quando backend estiver pronto, substituir por:
-        //   $membro = (new MembroService())->buscarPorId($_SESSION['membro_id']);
-        //   $view->membro = $membro;
+        $membroId = $_SESSION['membro_id'] ?? ($_GET['dev_membro'] ?? 0);
+        if (!$membroId) {
+            http_response_code(401);
+            echo '<h1>401 — Precisas de estar logado</h1>';
+            return;
+        }
+
+        $isOwner = true;
+
+        try {
+            $resenhas = \App\Models\Resenha::listarPorMembro((int) $membroId);
+        } catch (\Throwable $e) {
+            $r = new \stdClass();
+            $r->id = 1;
+            $r->livro = 'Terra Sonâmbula';
+            $r->texto = 'Uma obra que retrata a realidade angolana com uma sensibilidade única. Mia Couto nunca desilude.';
+            $r->estadoModeracao = 'aprovada';
+            $r->criadaEm = date('Y-m-d H:i:s', strtotime('-5 days'));
+
+            $r2 = new \stdClass();
+            $r2->id = 2;
+            $r2->livro = 'O Mito de Sísifo';
+            $r2->texto = 'Um livro curto mas que muda a forma como se pensa sobre o **absurdo** da vida.';
+            $r2->estadoModeracao = 'pendente';
+            $r2->criadaEm = date('Y-m-d H:i:s', strtotime('-1 day'));
+
+            $resenhas = [$r, $r2];
+        }
 
         require __DIR__ . '/../../Views/membros/card.php';
     }

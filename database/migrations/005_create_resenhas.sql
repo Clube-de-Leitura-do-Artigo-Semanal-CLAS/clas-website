@@ -7,6 +7,7 @@ CREATE TABLE public.resenhas (
     id               INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     membro_id        INTEGER NOT NULL,
     livro            VARCHAR(200) NOT NULL,
+    autor            VARCHAR(200) NOT NULL DEFAULT '',
     texto            TEXT NOT NULL,
     estado_moderacao public.estado_moderacao NOT NULL DEFAULT 'pendente',
     criada_em        TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),

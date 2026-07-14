@@ -87,6 +87,7 @@
               <th>Nome completo <i class="ph ph-caret-up-down"></i></th>
               <th>Email <i class="ph ph-caret-up-down"></i></th>
               <th>Telefone  <i class="ph ph-caret-up-down"></i></th>
+              <th>Estado</th>
               <th>Role</th>
               <th>Ação</th>
             </tr>
@@ -94,7 +95,7 @@
           <tbody>
             <?php if (empty($membros)): ?>
               <tr>
-                <td colspan="5" style="text-align: center; padding: 20px;">Nenhum membro encontrado.</td>
+                <td colspan="6" style="text-align: center; padding: 20px;">Nenhum membro encontrado.</td>
               </tr>
             <?php else: ?>
               <?php foreach ($membros as $membro): ?>
@@ -108,6 +109,7 @@
                 </td>
                 <td><?= htmlspecialchars($membro->email) ?></td>
                 <td><?= htmlspecialchars($membro->telefone ?? 'N/A') ?></td>
+                <td><span class="estado-badge estado-<?= $membro->estado ?>"><?= ucfirst($membro->estado) ?></span></td>
                 <td><?= htmlspecialchars($membro->role ?? 'N/A') ?></td>
                 <td>
                   <button class="btn-more" onclick="abrirModalRole(<?= $membro->id ?>, '<?= addslashes(htmlspecialchars($membro->nome, ENT_QUOTES)) ?>', '<?= addslashes(htmlspecialchars($membro->role ?? '', ENT_QUOTES)) ?>')">

@@ -16,6 +16,8 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Dados locais gerados a partir de CLASID.xlsx — não sobe para o repo
+# Dados pessoais dos membros — NUNCA versionar.
+# O CLASID.xlsx e o membros.json têm nomes reais de 490 pessoas.
+# Os dados vêm da base de dados; o JSON é só um fallback local.
 /docs/membros.json
 /docs/CLASID.xlsx

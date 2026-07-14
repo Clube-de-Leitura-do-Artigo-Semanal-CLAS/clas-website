@@ -16,10 +16,6 @@ class HomeController
         require __DIR__ . '/../../Views/publica/home.php';
     }
 
-    public function sobre(): void
-    {
-        require __DIR__ . '/../../Views/publica/sobre.php';
-    }
 
     public function eventos(): void
     {

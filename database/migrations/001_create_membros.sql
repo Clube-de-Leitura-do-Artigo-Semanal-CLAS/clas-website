@@ -6,7 +6,7 @@
 -- NÃO mudar estes valores sem alinhar com o código, senão o RoleMiddleware
 -- e o cálculo de estado deixam de funcionar.
 
-CREATE TYPE public.estado_membro AS ENUM ('ativo', 'em_risco', 'inativo', 'fantasma');
+CREATE TYPE public.estado_membro AS ENUM ('ativo', 'em_risco', 'inativo', 'adormecido');
 CREATE TYPE public.role_membro   AS ENUM ('membro', 'coordenadora', 'rececao', 'admin');
 
 CREATE TABLE public.membros (
@@ -14,9 +14,10 @@ CREATE TABLE public.membros (
     user_id               UUID NULL,                                   
     numero_processo               CHARACTER VARYING(20)  NOT NULL,
     qr_code               CHARACTER VARYING(255) NOT NULL,
-    estado                public.estado_membro   NOT NULL DEFAULT 'ativo'::estado_membro,
+    estado                public.estado_membro   NOT NULL DEFAULT 'inativo'::estado_membro,
     objetivos_entrada     TEXT NULL,
     nome                  CHARACTER VARYING(150) NOT NULL,
+    nome_passe            CHARACTER VARYING(100) NULL,   -- nome curto de exibição pública
     role                  public.role_membro     NOT NULL DEFAULT 'membro'::role_membro,
     email                 CHARACTER VARYING(150) NOT NULL,
     telefone              CHARACTER VARYING(20)  NULL,
