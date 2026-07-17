@@ -105,6 +105,48 @@ class Membro
         $membro = $stmt->fetchObject(self::class);
         return $membro ?: null;
     }
+
+    public static function obterPorId(int $id): ?Membro
+    {
+        $pdo = \App\Services\Database::getInstance();
+        $stmt = $pdo->prepare("SELECT * FROM membros WHERE id = :id");
+        $stmt->bindValue(':id', $id, \PDO::PARAM_INT);
+        $stmt->execute();
+        
+        $membro = $stmt->fetchObject(self::class);
+        return $membro ?: null;
+    }
+
+    public static function atualizarInline(int $id, array $dados): bool
+    {
+        if (empty($dados)) return true;
+
+        $pdo = \App\Services\Database::getInstance();
+        $campos = [];
+        $params = [];
+
+        // Whitelist de campos que podem ser editados desta forma (idade removida, não é coluna)
+        $camposPermitidos = ['nome', 'email', 'telefone', 'telefone_alternativo', 'data_nascimento', 'numero_processo', 'role', 'estado', 'nome_passe', 'objetivos_entrada', 'como_conheceu_clas', 'motivo_entrada'];
+
+        foreach ($dados as $campo => $valor) {
+            if (in_array($campo, $camposPermitidos)) {
+                $campos[] = "{$campo} = :{$campo}";
+                $params[":{$campo}"] = $valor === '' ? null : $valor;
+            }
+        }
+
+        if (empty($campos)) return false;
+
+        $setSql = implode(', ', $campos);
+        $params[':id'] = $id;
+
+        $stmt = $pdo->prepare("UPDATE membros SET {$setSql} WHERE id = :id");
+        foreach ($params as $chave => $valor) {
+            $stmt->bindValue($chave, $valor);
+        }
+
+        return $stmt->execute();
+    }
     public static function obterPorEmailOuIdClas(string $identificador): ?Membro
     {
         $pdo = \App\Services\Database::getInstance();

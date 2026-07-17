@@ -14,7 +14,8 @@ class MembrosController
         $termoPesquisa = trim($_GET['search'] ?? '');
 
         $rolesValidas   = ['membro', 'coordenadora', 'rececao', 'admin'];
-        $estadosValidos = ['ativo', 'em_risco', 'inativo', 'adormecido'];
+        // Valores exactos do ENUM estado_membro na base de dados Postgres
+        $estadosValidos = ['ativo', 'em risco', 'fantasma', 'inativo'];
         $filtroRole   = in_array($_GET['role']   ?? '', $rolesValidas)   ? $_GET['role']   : '';
         $filtroEstado = in_array($_GET['estado'] ?? '', $estadosValidos) ? $_GET['estado'] : '';
 
@@ -43,7 +44,8 @@ class MembrosController
             $termoPesquisa = trim($_GET['search'] ?? '');
 
             $rolesValidas   = ['membro', 'coordenadora', 'rececao', 'admin'];
-            $estadosValidos = ['ativo', 'em_risco', 'inativo', 'adormecido'];
+            // Valores exactos do ENUM estado_membro na base de dados Postgres
+            $estadosValidos = ['ativo', 'em risco', 'fantasma', 'inativo'];
             $filtroRole   = in_array($_GET['role']   ?? '', $rolesValidas)   ? $_GET['role']   : '';
             $filtroEstado = in_array($_GET['estado'] ?? '', $estadosValidos) ? $_GET['estado'] : '';
 
@@ -65,12 +67,27 @@ class MembrosController
             ]);
         } catch (\Throwable $e) {
             http_response_code(500);
-            echo json_encode(['sucesso' => false, 'erro' => $e->getMessage()]);
+            // Nunca expor erros internos ou SQL ao utilizador
+            error_log('[MembrosController::getDados] ' . $e->getMessage());
+            echo json_encode(['sucesso' => false, 'erro' => 'Ocorreu um erro interno. Por favor tenta novamente.']);
         }
     }
 
     public function show(string $id): void
     {
+        $idMembro = (int) $id;
+        if ($idMembro <= 0) {
+            header('Location: /admin/membros');
+            exit;
+        }
+
+        $membro = \App\Models\Membro::obterPorId($idMembro);
+
+        if (!$membro) {
+            header('Location: /admin/membros?erro=nao_encontrado');
+            exit;
+        }
+
         require __DIR__ . '/../../Views/admin/membro_detalhe.php';
     }
 
@@ -103,6 +120,41 @@ class MembrosController
         } else {
             http_response_code(500);
             echo json_encode(['sucesso' => false, 'erro' => 'Erro ao atualizar na base de dados.']);
+        }
+    }
+
+    public function updateInline(): void
+    {
+        header('Content-Type: application/json');
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+
+        if (!isset($input['id'])) {
+            http_response_code(400);
+            echo json_encode(['sucesso' => false, 'erro' => 'ID não fornecido.']);
+            return;
+        }
+
+        $id = (int) $input['id'];
+        unset($input['id']); // Remove o ID dos dados a atualizar
+
+        if (empty($input)) {
+            echo json_encode(['sucesso' => true, 'mensagem' => 'Nenhum dado para atualizar.']);
+            return;
+        }
+
+        try {
+            $sucesso = \App\Models\Membro::atualizarInline($id, $input);
+            if ($sucesso) {
+                echo json_encode(['sucesso' => true]);
+            } else {
+                http_response_code(500);
+                echo json_encode(['sucesso' => false, 'erro' => 'Erro ao atualizar na base de dados.']);
+            }
+        } catch (\Throwable $e) {
+            http_response_code(500);
+            error_log('[MembrosController::updateInline] ' . $e->getMessage());
+            echo json_encode(['sucesso' => false, 'erro' => 'Ocorreu um erro interno.']);
         }
     }
 }

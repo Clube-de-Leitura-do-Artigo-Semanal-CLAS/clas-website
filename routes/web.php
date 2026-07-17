@@ -10,6 +10,7 @@ return [
     // Pública — Tarefas 3.1 a 3.4
     ['GET', '/login', \App\Controllers\Auth\LoginController::class, 'index'],
     ['POST', '/login', \App\Controllers\Auth\LoginController::class, 'autenticar'],
+    ['GET', '/logout', \App\Controllers\Auth\LoginController::class, 'logout'],
     
     // Ativação de Conta (SMS OTP)
     ['GET', '/ativar', \App\Controllers\Auth\ActivationController::class, 'index'],

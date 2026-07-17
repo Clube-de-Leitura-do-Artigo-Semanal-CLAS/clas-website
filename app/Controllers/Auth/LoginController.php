@@ -82,5 +82,15 @@ class LoginController
         }
         exit;
     }
+
+    public function logout(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        session_destroy();
+        header('Location: /');
+        exit;
+    }
 }
 

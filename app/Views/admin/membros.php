@@ -16,7 +16,7 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+        <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
           <img src="/assets/img/logo_clas.png" alt="CLAS" class="sidebar-logo" />
         </a>
       </div>
@@ -97,10 +97,10 @@
             <span class="action-label">Estado</span>
             <select class="action-select" id="filtroEstado">
               <option value="">Todos</option>
-              <option value="ativo"       <?= ($filtroEstado ?? '') === 'ativo'       ? 'selected' : '' ?>>Ativo</option>
-              <option value="em_risco"    <?= ($filtroEstado ?? '') === 'em_risco'    ? 'selected' : '' ?>>Em Risco</option>
-              <option value="inativo"     <?= ($filtroEstado ?? '') === 'inativo'     ? 'selected' : '' ?>>Inativo</option>
-              <option value="adormecido"  <?= ($filtroEstado ?? '') === 'adormecido'  ? 'selected' : '' ?>>Adormecido</option>
+              <option value="ativo"     <?= ($filtroEstado ?? '') === 'ativo'     ? 'selected' : '' ?>>Ativo</option>
+              <option value="em risco"  <?= ($filtroEstado ?? '') === 'em risco'  ? 'selected' : '' ?>>Em Risco</option>
+              <option value="inativo"   <?= ($filtroEstado ?? '') === 'inativo'   ? 'selected' : '' ?>>Inativo</option>
+              <option value="fantasma"  <?= ($filtroEstado ?? '') === 'fantasma'  ? 'selected' : '' ?>>Fantasma</option>
             </select>
           </div>
 
@@ -152,7 +152,9 @@
 
     // --- Mapas de etiquetas ---
     const rolesLabel   = { membro:'Membro', coordenadora:'Coordenadora', rececao:'Recepcionista', admin:'Administrador' };
-    const estadoLabel  = { ativo:'Ativo', em_risco:'Em Risco', inativo:'Inativo', adormecido:'Adormecido' };
+    const estadoLabel  = { 'ativo':'Ativo', 'em risco':'Em Risco', 'inativo':'Inativo', 'fantasma':'Fantasma' };
+    // Converte valor BD em classe CSS segura (ex: 'em risco' → 'em-risco')
+    const estadoCssClass = (val) => (val || '').replace(/\s+/g, '-');
 
     // --------------------------------------------------------
     // Chamada principal ao endpoint JSON
@@ -208,11 +210,15 @@
             <td>
               <div class="td-product">
                 <img src="${avatarUrl}" alt="Avatar" style="border-radius:50%;" />
-                <span>${escHtml(m.nome)}</span>
+                <span>
+                  <a href="/admin/membros/${m.id}" style="color:inherit; text-decoration:none; font-weight:600;">
+                    ${escHtml(m.nome)}
+                  </a>
+                </span>
               </div>
             </td>
             <td>${escHtml(telef)}</td>
-            <td><span class="estado-badge estado-${estadoVal}">${estadoLabel[estadoVal] || ucfirst(estadoVal)}</span></td>
+            <td><span class="estado-badge estado-${estadoCssClass(estadoVal)}">${estadoLabel[estadoVal] || ucfirst(estadoVal)}</span></td>
             <td>${rolesLabel[roleVal] || escHtml(roleVal)}</td>
             <td>
               <button class="btn-more" onclick="abrirModalRole(${m.id}, '${escJs(m.nome)}', '${escJs(roleVal)}')">
