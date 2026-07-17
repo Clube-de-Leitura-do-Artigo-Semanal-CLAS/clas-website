@@ -13,10 +13,11 @@
   <div class="dash-bg"></div>
   
   <div class="dash-container">
-    <aside class="sidebar">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <a href="index.html" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
-          <img src="assets/img/logo.gif" alt="CLAS" class="sidebar-logo" />
+        <a href="/" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+          <img src="/assets/img/logo_clas.png" alt="CLAS" class="sidebar-logo" />
         </a>
       </div>
       
@@ -32,120 +33,100 @@
         <a href="#" class="nav-item"><i class="ph ph-books"></i> Biblioteca</a>
       </nav>
       
-      <div class="sidebar-footer">
-        <a href="#" class="nav-item"><i class="ph ph-sign-out"></i> Terminar sessão</a>
-      </div>
     </aside>
 
     <main class="main-content">
       <header class="topbar">
-        <div class="search-bar">
-          <i class="ph ph-magnifying-glass"></i>
-          <input type="text" placeholder="Pesquisar..." />
+        <div class="topbar-left">
+          <button class="icon-btn mobile-menu-btn" id="mobileMenuBtn"><i class="ph ph-list"></i></button>
+          <h1 class="page-title">Membros</h1>
         </div>
         
         <div class="topbar-right">
           <button class="icon-btn"><i class="ph ph-envelope-simple"></i></button>
           <button class="icon-btn"><i class="ph ph-bell"></i><span class="badge"></span></button>
           
-          <div class="user-profile">
-            <img src="assets/img/logo.gif" alt="User" class="avatar" />
+          <div class="user-profile" id="userProfileBtn">
+            <img src="/assets/img/logo.gif" alt="User" class="avatar" />
             <div class="user-info">
-              <span class="user-name">administrador</span>
-              <span class="user-email">admin@clas.ao</span>
+              <span class="user-name" style="text-transform: capitalize;"><?= htmlspecialchars($_SESSION['role'] ?? 'Desconhecido') ?></span>
+              <span class="user-email"><?= htmlspecialchars($_SESSION['nome_passe'] ?? '- - -') ?></span>
             </div>
             <i class="ph ph-caret-down"></i>
+            <div class="dropdown-menu" id="userDropdown">
+              <a href="/logout" class="dropdown-item"><i class="ph ph-sign-out"></i> Terminar sessão</a>
+            </div>
           </div>
         </div>
       </header>
 
       <div class="content-header">
-        <h1 class="page-title">Membros</h1>
         
         <div class="content-actions">
+          
+          <!-- Search Bar -->
+          <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" id="pesquisaMembros" placeholder="Pesquisar por nome, email ou ID..." value="<?= htmlspecialchars($termoPesquisa ?? '') ?>" autocomplete="off" />
+          </div>
+
+          <!-- Mostrar X por página -->
           <div class="action-group">
             <span class="action-label">Mostrar</span>
-            <select class="action-select">
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
+            <select class="action-select" id="filtroLimit">
+              <option value="10" <?= $porPagina == 10 ? 'selected' : '' ?>>10</option>
+              <option value="20" <?= $porPagina == 20 ? 'selected' : '' ?>>20</option>
+              <option value="50" <?= $porPagina == 50 ? 'selected' : '' ?>>50</option>
             </select>
           </div>
           
-          <button class="btn btn-outline"><i class="ph ph-funnel"></i> Filtrar</button>
-          <button class="btn btn-outline"><i class="ph ph-export"></i> Exportar</button>
+          <!-- Filtro: Role -->
+          <div class="action-group">
+            <span class="action-label">Role</span>
+            <select class="action-select" id="filtroRole">
+              <option value="">Todos</option>
+              <option value="membro"       <?= ($filtroRole ?? '') === 'membro'       ? 'selected' : '' ?>>Membro</option>
+              <option value="coordenadora" <?= ($filtroRole ?? '') === 'coordenadora' ? 'selected' : '' ?>>Coordenadora</option>
+              <option value="rececao"      <?= ($filtroRole ?? '') === 'rececao'      ? 'selected' : '' ?>>Recepcionista</option>
+              <option value="admin"        <?= ($filtroRole ?? '') === 'admin'        ? 'selected' : '' ?>>Administrador</option>
+            </select>
+          </div>
+
+          <!-- Filtro: Estado -->
+          <div class="action-group">
+            <span class="action-label">Estado</span>
+            <select class="action-select" id="filtroEstado">
+              <option value="">Todos</option>
+              <option value="ativo"     <?= ($filtroEstado ?? '') === 'ativo'     ? 'selected' : '' ?>>Ativo</option>
+              <option value="em risco"  <?= ($filtroEstado ?? '') === 'em risco'  ? 'selected' : '' ?>>Em Risco</option>
+              <option value="inativo"   <?= ($filtroEstado ?? '') === 'inativo'   ? 'selected' : '' ?>>Inativo</option>
+              <option value="fantasma"  <?= ($filtroEstado ?? '') === 'fantasma'  ? 'selected' : '' ?>>Fantasma</option>
+            </select>
+          </div>
+
           <button class="btn btn-primary"><i class="ph ph-plus"></i> Novo Membro</button>
         </div>
       </div>
-
-      <!-- Table -->
       <div class="table-container">
         <table class="data-table">
           <thead>
             <tr>
-              <th>ID CLAS <i class="ph ph-caret-up-down"></i></th>
-              <th>Nome completo <i class="ph ph-caret-up-down"></i></th>
-              <th>Email <i class="ph ph-caret-up-down"></i></th>
-              <th>Telefone  <i class="ph ph-caret-up-down"></i></th>
+              <th><a href="#" class="sort-link" data-col="numero_processo" style="text-decoration:none;color:inherit;">ID CLAS <i class="ph ph-caret-up-down" style="opacity:.4"></i></a></th>
+              <th><a href="#" class="sort-link" data-col="nome" style="text-decoration:none;color:inherit;">Nome completo <i class="ph ph-caret-up-down" style="opacity:.4"></i></a></th>
+              <th>Telefone</th>
               <th>Estado</th>
               <th>Role</th>
               <th>Ação</th>
             </tr>
           </thead>
-          <tbody>
-            <?php if (empty($membros)): ?>
-              <tr>
-                <td colspan="6" style="text-align: center; padding: 20px;">Nenhum membro encontrado.</td>
-              </tr>
-            <?php else: ?>
-              <?php foreach ($membros as $membro): ?>
-              <tr>
-                <td style="font-weight: 600; color: var(--c-primary);"><?= htmlspecialchars($membro->numero_processo) ?></td>
-                <td>
-                  <div class="td-product">
-                    <img src="https://ui-avatars.com/api/?name=<?= urlencode($membro->nome) ?>&background=random" alt="Avatar" style="border-radius: 50%;" />
-                    <span><?= htmlspecialchars($membro->nome) ?></span>
-                  </div>
-                </td>
-                <td><?= htmlspecialchars($membro->email) ?></td>
-                <td><?= htmlspecialchars($membro->telefone ?? 'N/A') ?></td>
-                <td><span class="estado-badge estado-<?= $membro->estado ?>"><?= ucfirst($membro->estado) ?></span></td>
-                <td><?= htmlspecialchars($membro->role ?? 'N/A') ?></td>
-                <td>
-                  <button class="btn-more" onclick="abrirModalRole(<?= $membro->id ?>, '<?= addslashes(htmlspecialchars($membro->nome, ENT_QUOTES)) ?>', '<?= addslashes(htmlspecialchars($membro->role ?? '', ENT_QUOTES)) ?>')">
-                    <i class="ph ph-dots-three-outline-vertical"></i>
-                  </button>
-                </td>
-              </tr>
-              <?php endforeach; ?>
-            <?php endif; ?>
+          <tbody id="tabelaMembrosBody">
+
           </tbody>
         </table>
       </div>
 
-      <!-- Pagination -->
-      <div class="pagination">
-        <?php if ($paginaAtual > 1): ?>
-          <a href="?page=<?= $paginaAtual - 1 ?>" class="page-btn" style="text-decoration:none;"><i class="ph ph-caret-left"></i> Anterior</a>
-        <?php else: ?>
-          <button class="page-btn" disabled style="opacity: 0.5;"><i class="ph ph-caret-left"></i> Anterior</button>
-        <?php endif; ?>
-
-        <div class="page-numbers">
-          <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-            <?php if ($i === $paginaAtual): ?>
-              <span class="page-num active"><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></span>
-            <?php else: ?>
-              <a href="?page=<?= $i ?>" class="page-num" style="text-decoration:none; color:inherit;"><?= str_pad($i, 2, '0', STR_PAD_LEFT) ?></a>
-            <?php endif; ?>
-          <?php endfor; ?>
-        </div>
-
-        <?php if ($paginaAtual < $totalPaginas): ?>
-          <a href="?page=<?= $paginaAtual + 1 ?>" class="page-btn" style="text-decoration:none;">Próximo <i class="ph ph-caret-right"></i></a>
-        <?php else: ?>
-          <button class="page-btn" disabled style="opacity: 0.5;">Próximo <i class="ph ph-caret-right"></i></button>
-        <?php endif; ?>
+      <div class="pagination" id="paginacaoContainer">
+      </div>
       </div>
 
     </main>
@@ -153,6 +134,236 @@
 
   <script src="assets/js/admin.js"></script>
   <script>
+
+  (function () {
+    const estado = {
+      search : '',
+      limit  : 10,
+      role   : '',
+      estado : '',
+      sort   : 'id',
+      dir    : 'desc',
+      page   : 1,
+    };
+
+    const tbody      = document.getElementById('tabelaMembrosBody');
+    const paginacao  = document.getElementById('paginacaoContainer');
+    const searchInput = document.getElementById('pesquisaMembros');
+
+    // --- Mapas de etiquetas ---
+    const rolesLabel   = { membro:'Membro', coordenadora:'Coordenadora', rececao:'Recepcionista', admin:'Administrador' };
+    const estadoLabel  = { 'ativo':'Ativo', 'em risco':'Em Risco', 'inativo':'Inativo', 'fantasma':'Fantasma' };
+    // Converte valor BD em classe CSS segura (ex: 'em risco' → 'em-risco')
+    const estadoCssClass = (val) => (val || '').replace(/\s+/g, '-');
+
+    // --------------------------------------------------------
+    // Chamada principal ao endpoint JSON
+    // --------------------------------------------------------
+    async function carregarMembros() {
+      const params = new URLSearchParams();
+      if (estado.search) params.set('search', estado.search);
+      if (estado.role)   params.set('role',   estado.role);
+      if (estado.estado) params.set('estado', estado.estado);
+      if (estado.sort !== 'id')   params.set('sort', estado.sort);
+      if (estado.dir  !== 'desc') params.set('dir',  estado.dir);
+      if (estado.limit !== 10)    params.set('limit', estado.limit);
+      if (estado.page  !== 1)     params.set('page',  estado.page);
+
+      // Atualizar URL sem recarregar
+      const urlAtual = '/admin/membros' + (params.toString() ? '?' + params.toString() : '');
+      history.pushState(null, '', urlAtual);
+
+      // Indicador de loading na tabela
+      tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:#888;"><i class="ph ph-circle-notch" style="animation:spin 1s linear infinite;margin-right:8px;"></i>A carregar...</td></tr>`;
+
+      try {
+        const resp = await fetch('/admin/membros/dados?' + params.toString());
+        const data = await resp.json();
+
+        if (!data.sucesso) {
+          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:red;">Erro: ${data.erro}</td></tr>`;
+          return;
+        }
+
+        renderTabela(data.membros);
+        renderPaginacao(data.paginaAtual, data.totalPaginas);
+        atualizarIconesOrdenacao();
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:red;">Erro de comunicação com o servidor.</td></tr>`;
+      }
+    }
+
+
+    function renderTabela(membros) {
+      if (!membros || membros.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:#888;">Nenhum membro encontrado.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = membros.map(m => {
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nome)}&background=random`;
+        const telef  = m.telefone || 'N/A';
+        const estadoVal = m.estado || '';
+        const roleVal   = m.role   || '';
+        return `
+          <tr>
+            <td style="font-weight:600;color:var(--c-primary)">${escHtml(m.numero_processo)}</td>
+            <td>
+              <div class="td-product">
+                <img src="${avatarUrl}" alt="Avatar" style="border-radius:50%;" />
+                <span>
+                  <a href="/admin/membros/${m.id}" style="color:inherit; text-decoration:none; font-weight:600;">
+                    ${escHtml(m.nome)}
+                  </a>
+                </span>
+              </div>
+            </td>
+            <td>${escHtml(telef)}</td>
+            <td><span class="estado-badge estado-${estadoCssClass(estadoVal)}">${estadoLabel[estadoVal] || ucfirst(estadoVal)}</span></td>
+            <td>${rolesLabel[roleVal] || escHtml(roleVal)}</td>
+            <td>
+              <button class="btn-more" onclick="abrirModalRole(${m.id}, '${escJs(m.nome)}', '${escJs(roleVal)}')">
+                <i class="ph ph-dots-three-outline-vertical"></i>
+              </button>
+            </td>
+          </tr>`;
+      }).join('');
+    }
+
+    // --------------------------------------------------------
+    // Renderizar paginação
+    // --------------------------------------------------------
+    function renderPaginacao(atual, total) {
+      if (total <= 1) { paginacao.innerHTML = ''; return; }
+
+      const janela = 2;
+      const inicio = Math.max(1, atual - janela);
+      const fim    = Math.min(total, atual + janela);
+      let html = '';
+
+      // Botão Anterior
+      html += atual > 1
+        ? `<a href="#" class="page-btn" data-page="${atual - 1}"><i class="ph ph-caret-left"></i> Anterior</a>`
+        : `<button class="page-btn" disabled style="opacity:.5"><i class="ph ph-caret-left"></i> Anterior</button>`;
+
+      html += '<div class="page-numbers">';
+      if (inicio > 1) {
+        html += `<a href="#" class="page-num" data-page="1">01</a>`;
+        if (inicio > 2) html += '<span style="color:#888;padding:0 5px">...</span>';
+      }
+      for (let i = inicio; i <= fim; i++) {
+        const label = String(i).padStart(2, '0');
+        html += i === atual
+          ? `<span class="page-num active">${label}</span>`
+          : `<a href="#" class="page-num" data-page="${i}">${label}</a>`;
+      }
+      if (fim < total) {
+        if (fim < total - 1) html += '<span style="color:#888;padding:0 5px">...</span>';
+        html += `<a href="#" class="page-num" data-page="${total}">${String(total).padStart(2,'0')}</a>`;
+      }
+      html += '</div>';
+
+      // Botão Próximo
+      html += atual < total
+        ? `<a href="#" class="page-btn" data-page="${atual + 1}">Próximo <i class="ph ph-caret-right"></i></a>`
+        : `<button class="page-btn" disabled style="opacity:.5">Próximo <i class="ph ph-caret-right"></i></button>`;
+
+      paginacao.innerHTML = html;
+
+      // Eventos nos links de página
+      paginacao.querySelectorAll('[data-page]').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          estado.page = parseInt(a.dataset.page);
+          carregarMembros();
+        });
+      });
+    }
+
+    // --------------------------------------------------------
+    // Atualizar ícones nos cabeçalhos de ordenação
+    // --------------------------------------------------------
+    function atualizarIconesOrdenacao() {
+      document.querySelectorAll('.sort-link').forEach(link => {
+        const col  = link.dataset.col;
+        const icon = link.querySelector('i');
+        if (col === estado.sort) {
+          icon.className = estado.dir === 'asc' ? 'ph ph-caret-up' : 'ph ph-caret-down';
+          icon.style.color   = 'var(--c-primary, #0055ff)';
+          icon.style.opacity = '1';
+        } else {
+          icon.className    = 'ph ph-caret-up-down';
+          icon.style.color  = '';
+          icon.style.opacity = '.4';
+        }
+      });
+    }
+
+    // --------------------------------------------------------
+    // Utilitários
+    // --------------------------------------------------------
+    function escHtml(str) {
+      if (str == null) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function escJs(str) {
+      if (str == null) return '';
+      return String(str).replace(/'/g,"\\'").replace(/"/g,'\\"');
+    }
+    function ucfirst(str) {
+      if (!str) return '';
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // --------------------------------------------------------
+    // Ligar eventos a todos os controlos
+    // --------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+
+      // Pesquisa com debounce
+      let debounceTimer;
+      searchInput?.addEventListener('input', function() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => {
+          estado.search = this.value.trim();
+          estado.page   = 1;
+          carregarMembros();
+        }, 400);
+      });
+
+      // Dropdowns de filtro
+      document.getElementById('filtroLimit')?.addEventListener('change', function() {
+        estado.limit = parseInt(this.value);
+        estado.page  = 1;
+        carregarMembros();
+      });
+      document.getElementById('filtroRole')?.addEventListener('change', function() {
+        estado.role = this.value;
+        estado.page = 1;
+        carregarMembros();
+      });
+      document.getElementById('filtroEstado')?.addEventListener('change', function() {
+        estado.estado = this.value;
+        estado.page   = 1;
+        carregarMembros();
+      });
+
+      // Cabeçalhos de ordenação
+      document.querySelectorAll('.sort-link').forEach(link => {
+        link.addEventListener('click', e => {
+          e.preventDefault();
+          const col = link.dataset.col;
+          estado.dir  = (estado.sort === col && estado.dir === 'asc') ? 'desc' : 'asc';
+          estado.sort = col;
+          estado.page = 1;
+          carregarMembros();
+        });
+      });
+
+      // Carregar imediatamente ao abrir a página
+      carregarMembros();
+    });
+  })();
+
     // Função para abrir o modal de alteração de role
     function abrirModalRole(id, nome, roleAtual) {
       // Obter os papéis possíveis. No mundo real, poderíamos vir via PHP JSON, mas estão definidos na classe Role.
@@ -233,6 +444,49 @@
         }
       });
     }
+
+    // ============================================================
+    // LÓGICA DA UI (Mobile Sidebar & User Dropdown)
+    // ============================================================
+    document.addEventListener("DOMContentLoaded", function() {
+      const userProfileBtn = document.getElementById("userProfileBtn");
+      const userDropdown = document.getElementById("userDropdown");
+      const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+      const sidebar = document.getElementById("sidebar");
+      const sidebarOverlay = document.getElementById("sidebarOverlay");
+
+      // Toggle user dropdown
+      if (userProfileBtn && userDropdown) {
+        userProfileBtn.addEventListener("click", function(e) {
+          e.stopPropagation();
+          userDropdown.classList.toggle("show");
+        });
+      }
+
+      // Close dropdown when clicking outside
+      document.addEventListener("click", function(e) {
+        if (userDropdown && userDropdown.classList.contains("show")) {
+          if (!userProfileBtn.contains(e.target)) {
+            userDropdown.classList.remove("show");
+          }
+        }
+      });
+
+      // Mobile Menu Toggle
+      if (mobileMenuBtn && sidebar && sidebarOverlay) {
+        mobileMenuBtn.addEventListener("click", function() {
+          sidebar.classList.add("open");
+          sidebarOverlay.classList.add("show");
+        });
+
+        // Close when clicking on overlay
+        sidebarOverlay.addEventListener("click", function() {
+          sidebar.classList.remove("open");
+          sidebarOverlay.classList.remove("show");
+        });
+      }
+    });
+
   </script>
 </body>
 </html>

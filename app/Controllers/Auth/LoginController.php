@@ -4,28 +4,32 @@ namespace App\Controllers\Auth;
 
 class LoginController
 {
-    /**
-     * Mostra a página HTML do login.
-     */
+
     public function index(): void
     {
         require __DIR__ . '/../../Views/auth/login.php';
     }
 
-    /**
-     * Recebe os dados do formulário quando o utilizador clica em "Entrar".
-     */
     public function autenticar(): void
     {
-        $email = $_POST['email'] ?? '';
+        $identificador = trim($_POST['email'] ?? '');
         $password = $_POST['password'] ?? '';
 
-        if (empty($email) || empty($password)) {
-            // Em vez de echo, num sistema real rediriamos de volta com uma mensagem de erro na sessão
-            echo "<h1>Erro: Preenche o email e a senha.</h1>";
+        if (empty($identificador) || empty($password)) {
+            echo "<h1>Erro: Preenche o email/ID e a senha.</h1>";
             echo "<a href='/login'>Voltar</a>";
             return;
         }
+
+        $membro = \App\Models\Membro::obterPorEmailOuIdClas($identificador);
+
+        if (!$membro || empty($membro->email)) {
+            echo "<h1>Falha no login: Credenciais inválidas ou utilizador não encontrado.</h1>";
+            echo "<a href='/login'>Voltar</a>";
+            return;
+        }
+
+        $emailReal = $membro->email;
 
         $supabaseUrl = getenv('SUPABASE_URL');
         $anonKey = getenv('SUPABASE_ANON_KEY');
@@ -38,7 +42,7 @@ class LoginController
             "Content-Type: application/json"
         ]);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
-            'email' => $email,
+            'email' => $emailReal,
             'password' => $password
         ]));
 
@@ -57,17 +61,8 @@ class LoginController
 
         $userId = $dadosAuth['user']['id'] ?? null;
 
-        if (!$userId) {
-            echo "<h1>Erro inesperado ao contactar o Supabase.</h1>";
-            return;
-        }
-
-       
-        $membro = \App\Models\Membro::obterPorUserId($userId);
-
-        if (!$membro) {
-
-            echo "<h1>Perfil não encontrado. O teu registo no CLAS ainda não está completo.</h1>";
+        if (!$userId || $membro->user_id !== $userId) {
+            echo "<h1>Erro de integridade: O perfil não corresponde à conta de segurança. Contacta a administração.</h1>";
             return;
         }
 
@@ -78,12 +73,23 @@ class LoginController
         $_SESSION['user_id'] = $membro->id;
         $_SESSION['role'] = $membro->role;
         $_SESSION['nome'] = $membro->nome;
+        $_SESSION['nome_passe'] = $membro->nome_passe;
 
         if (in_array($membro->role, ['admin', 'coordenadora', 'rececao'])) {
             header('Location: /admin/membros');
         } else {
             header('Location: /membros/perfil');
         }
+        exit;
+    }
+
+    public function logout(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        session_destroy();
+        header('Location: /');
         exit;
     }
 }

@@ -6,17 +6,14 @@
 <section class="section section-bg" style="padding-top: 60px; background-size: cover; background-position: center; background-repeat: no-repeat;">
   <div class="container">
 
-    <!-- Header -->
     <div class="section-header" style="margin-bottom: 100px;">
       <div class="eyebrow">Liga CLAS</div>
       <h1>Pódio da semana</h1>
       <p>Ranking semanal baseado nos pontos dos quizzes e participação da nossa comunidade literária.</p>
     </div>
 
-    <!-- Pódio (top 3) -->
     <div class="podium" style="padding-top: 60px">
       <?php
-        // Reordena para o layout visual: 2º, 1º (líder ao centro), 3º
         $ranksPodio = [2, 1, 3];
         $ordemPodio = [$top3[1] ?? null, $top3[0] ?? null, $top3[2] ?? null];
         foreach ($ordemPodio as $i => $m):
